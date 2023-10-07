@@ -36,17 +36,23 @@ public class Main extends Application {
         TextField projectName = new TextField();
         TextField projectDescription = new TextField();
         DatePicker projectStartDate= new DatePicker();
+        projectStartDate.setValue(java.time.LocalDate.now());
+        
+        //save button
+        Button submitProj = new Button("Submit");   
         
 		//create scene
         scene1 = new Scene(homePage, 500, 450);
-        scene2= new Scene(newProjectPage,500,450);
+        scene2 = new Scene(newProjectPage,500,450);
         
         //action buttons
         goToProjectPage.setOnAction(e -> s.setScene(scene2));  
+        submitProj.setOnAction(e -> {projectName.clear(); projectDescription.clear(); projectStartDate.setValue(java.time.LocalDate.now());});
+
         
         //adding to scene
         homePage.getChildren().addAll(label1, goToProjectPage);
-        newProjectPage.getChildren().addAll(pName, projectName, pDesc, projectDescription, pDate, projectStartDate);
+        newProjectPage.getChildren().addAll(pName, projectName, pDesc, projectDescription, pDate, projectStartDate, submitProj);
 
         //set scene    
         s.setScene(scene1);
