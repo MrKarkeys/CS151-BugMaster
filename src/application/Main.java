@@ -1,56 +1,52 @@
 package application;
 	
-import javafx.application.Application; 
+import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene; 
-import javafx.scene.control.*; 
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.geometry.*;
-import javafx.event.*;
 import javafx.stage.Stage; 
-import java.time.*;
 
 public class Main extends Application {
-	Scene sceneHome, scene2CreateProj,scene3ViewProj;
+	Scene scene;
 	@Override
-	  public void start(Stage s) 
-    { 
+	  public void start(Stage s) { 
         // set title for the stage 
         s.setTitle("BugMaster"); 
   
-        //home page
-        VBox homePage = new VBox(20);
-        homePage.setPadding(new Insets(10));
-        homePage.setAlignment(Pos.CENTER);
-        homePage.setStyle("-fx-background-color: cornsilk");
-        Label label1= new Label("HOME PAGE");
+        //buttons and pages
+        HomePage home = new HomePage();
+        Button toHome = new Button("home");
         
-        //navigation buttons
-        Button goToProjectPage= new Button("Create New Project");              
-        Button goToHomePage= new Button("Home");
-        Button viewProjectPage = new Button("View Projects");
+        ViewProject viewproj = new ViewProject();
+        Button toViewProj = new Button("view project");
         
-       
+        ProjectForm projForm = new ProjectForm();
+        Button toProjForm = new Button("create a project");
         
-		//create scenes
-        projectForm p1 = new projectForm();
-        viewProject v1 = new viewProject();
-        sceneHome = new Scene(homePage, 500, 450);
-        scene2CreateProj = new Scene(p1.sceneView(goToHomePage),600,600);
-        scene3ViewProj = new Scene(v1.sceneView(goToHomePage),500,450);
+        //styling buttons
+        toHome.setStyle("-fx-background-color: TAN");
+        toViewProj.setStyle("-fx-background-color: TAN");
+        toProjForm.setStyle("-fx-background-color: TAN");
         
         //action buttons
-        goToProjectPage.setOnAction(e -> s.setScene(scene2CreateProj));
-        goToHomePage.setOnAction(e -> s.setScene(sceneHome));
-        viewProjectPage.setOnAction(e -> s.setScene(scene3ViewProj));
-
-        //adding to home page scene
-        homePage.getChildren().addAll(label1, goToProjectPage, viewProjectPage);
+        toHome.setOnAction(e->scene.setRoot(home.render(toViewProj,toProjForm)));
+        toViewProj.setOnAction(e -> scene.setRoot(viewproj.render(toHome)));
+        toProjForm.setOnAction(e->scene.setRoot(projForm.render(toHome, toViewProj)));
+        
         //set scene    
-        s.setScene(sceneHome);
+        scene = new Scene(home.render(toProjForm,toViewProj), 600, 600);
+        s.setScene(scene);
         s.show(); 
     } 
-	
+
+
 	
 	public static void main(String[] args) {
 		launch(args);
