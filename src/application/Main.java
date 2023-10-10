@@ -34,7 +34,7 @@ public class Main extends Application {
 
         //text fields and date picker for project info
         TextField projectName = new TextField();
-        TextField projectDescription = new TextField();
+        TextArea projectDescription = new TextArea();
         DatePicker projectStartDate= new DatePicker();
         projectStartDate.setValue(java.time.LocalDate.now());
         
