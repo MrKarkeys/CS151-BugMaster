@@ -3,59 +3,51 @@ package application;
 import javafx.application.Application; 
 import javafx.scene.Scene; 
 import javafx.scene.control.*; 
-import javafx.scene.layout.*; 
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.geometry.*;
 import javafx.event.*;
 import javafx.stage.Stage; 
 import java.time.*;
 
 public class Main extends Application {
-	Scene scene1, scene2;
+	Scene sceneHome, scene2CreateProj,scene3ViewProj;
 	@Override
 	  public void start(Stage s) 
     { 
         // set title for the stage 
-        s.setTitle("bugmaster"); 
+        s.setTitle("BugMaster"); 
   
         //home page
         VBox homePage = new VBox(20);
         homePage.setPadding(new Insets(10));
         homePage.setAlignment(Pos.CENTER);
-        Label label1= new Label("home page");
-        Button goToProjectPage= new Button("create new project");              
+        homePage.setStyle("-fx-background-color: cornsilk");
+        Label label1= new Label("HOME PAGE");
+        
+        //navigation buttons
+        Button goToProjectPage= new Button("Create New Project");              
+        Button goToHomePage= new Button("Home");
+        Button viewProjectPage = new Button("View Projects");
+        
        
-       //create new project page
-        VBox newProjectPage= new VBox(20);
-        newProjectPage.setPadding(new Insets(10));
-        newProjectPage.setAlignment(Pos.CENTER);
-        Label pName= new Label("enter the name");
-        Label pDesc= new Label("enter the description");
-        Label pDate= new Label("enter the starting date");
-
-        //text fields and date picker for project info
-        TextField projectName = new TextField();
-        TextArea projectDescription = new TextArea();
-        DatePicker projectStartDate= new DatePicker();
-        projectStartDate.setValue(java.time.LocalDate.now());
         
-        //save button
-        Button submitProj = new Button("Submit");   
-        
-		//create scene
-        scene1 = new Scene(homePage, 500, 450);
-        scene2 = new Scene(newProjectPage,500,450);
+		//create scenes
+        projectForm p1 = new projectForm();
+        viewProject v1 = new viewProject();
+        sceneHome = new Scene(homePage, 500, 450);
+        scene2CreateProj = new Scene(p1.sceneView(goToHomePage),600,600);
+        scene3ViewProj = new Scene(v1.sceneView(goToHomePage),500,450);
         
         //action buttons
-        goToProjectPage.setOnAction(e -> s.setScene(scene2));  
-        submitProj.setOnAction(e -> {projectName.clear(); projectDescription.clear(); projectStartDate.setValue(java.time.LocalDate.now());});
+        goToProjectPage.setOnAction(e -> s.setScene(scene2CreateProj));
+        goToHomePage.setOnAction(e -> s.setScene(sceneHome));
+        viewProjectPage.setOnAction(e -> s.setScene(scene3ViewProj));
 
-        
-        //adding to scene
-        homePage.getChildren().addAll(label1, goToProjectPage);
-        newProjectPage.getChildren().addAll(pName, projectName, pDesc, projectDescription, pDate, projectStartDate, submitProj);
-
+        //adding to home page scene
+        homePage.getChildren().addAll(label1, goToProjectPage, viewProjectPage);
         //set scene    
-        s.setScene(scene1);
+        s.setScene(sceneHome);
         s.show(); 
     } 
 	
