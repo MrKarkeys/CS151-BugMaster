@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class HomePage extends Base{
-	public BorderPane render(Button addProj, Button viewProj) {
+	public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm) {
 		
 		//content here
 		Label label = new Label("home");
@@ -18,11 +18,9 @@ public class HomePage extends Base{
         stackPane.getChildren().addAll(label);
 
         //creating nav bar
-        BorderPane mainPane = createBase();
+        BorderPane mainPane = createBase(toHomepage, toViewProj, toProjForm);
         HBox leftBox = (HBox) mainPane.getTop();
-        leftBox.setPadding(new Insets(10));
-        leftBox.setSpacing(20);
-        leftBox.getChildren().addAll(addProj, viewProj);
+
 
         //set scene
         mainPane.setCenter(stackPane);

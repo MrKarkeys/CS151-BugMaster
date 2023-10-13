@@ -8,12 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class ViewProject extends Base{
+public class ViewProjectPage extends Base{
 
-    public BorderPane render(Button toHomepage) {
+    public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm) {
         
     	//content
         Label label = new Label("list of projs");
@@ -22,13 +23,8 @@ public class ViewProject extends Base{
         centerPane.getChildren().add(label);
     
         //nav bar
-        BorderPane mainPane = createBase();
-        VBox leftBox = (VBox) mainPane.getLeft();
-        leftBox.setPadding(new Insets(10));
-        leftBox.setSpacing(20);
-        leftBox.getChildren().add(toHomepage);
-
-        //set scene
+        BorderPane mainPane = createBase(toHomepage, toViewProj, toProjForm);
+       
         mainPane.setCenter(centerPane);
 
         return mainPane;

@@ -13,19 +13,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class ProjectForm extends Base{
-	public BorderPane render(Button toHomepage, Button toViewProj)  {
+public class ProjectFormPage extends Base{
+	public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm)  {
 		       
         StackPane centerPane = new StackPane();
         
         //nav bar
-        BorderPane mainPane = createBase();
-        HBox leftBox = (HBox) mainPane.getTop();
-        leftBox.setPadding(new Insets(10));
-        leftBox.setSpacing(20);
-        leftBox.getChildren().addAll(toHomepage,toViewProj);
+        BorderPane mainPane = createBase(toHomepage, toViewProj, toProjForm);
 
-        
         //labels for text fields and date picker
         Label pName= new Label("enter the name");
         Label pDesc= new Label("enter the description");
@@ -44,7 +39,8 @@ public class ProjectForm extends Base{
         
         //submit button
         Button subProj = new Button("Submit");
-        
+        subProj.setOnAction(e -> {projectName.clear(); projectDescription.clear(); projectStartDate.setValue(java.time.LocalDate.now());});        //clear button
+       
         //clear button
         Button clearProj = new Button("Clear");  
         clearProj.setOnAction(e -> {projectName.clear(); projectDescription.clear(); projectStartDate.setValue(java.time.LocalDate.now());});

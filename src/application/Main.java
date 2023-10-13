@@ -24,10 +24,10 @@ public class Main extends Application {
         HomePage home = new HomePage();
         Button toHome = new Button("home");
         
-        ViewProject viewproj = new ViewProject();
+        ViewProjectPage viewproj = new ViewProjectPage();
         Button toViewProj = new Button("view project");
         
-        ProjectForm projForm = new ProjectForm();
+        ProjectFormPage projForm = new ProjectFormPage();
         Button toProjForm = new Button("create a project");
         
         //styling buttons
@@ -36,12 +36,12 @@ public class Main extends Application {
         toProjForm.setStyle("-fx-background-color: TAN");
         
         //action buttons
-        toHome.setOnAction(e->scene.setRoot(home.render(toViewProj,toProjForm)));
-        toViewProj.setOnAction(e -> scene.setRoot(viewproj.render(toHome)));
-        toProjForm.setOnAction(e->scene.setRoot(projForm.render(toHome, toViewProj)));
+        toHome.setOnAction(e->scene.setRoot(home.render(toHome, toProjForm, toViewProj)));
+        toViewProj.setOnAction(e -> scene.setRoot(viewproj.render(toHome, toProjForm, toViewProj)));
+        toProjForm.setOnAction(e->scene.setRoot(projForm.render(toHome, toProjForm, toViewProj)));
         
         //set scene    
-        scene = new Scene(home.render(toProjForm,toViewProj), 600, 600);
+        scene = new Scene(home.render(toHome,toProjForm,toViewProj), 600, 600);
         s.setScene(scene);
         s.show(); 
     } 
