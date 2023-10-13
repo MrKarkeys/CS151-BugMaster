@@ -1,5 +1,8 @@
 package application;
 	
+import Model.HomePage;
+import Model.ProjectFormPage;
+import Model.ViewProjectPage;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene; 
