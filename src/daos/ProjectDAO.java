@@ -2,7 +2,10 @@ package daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import config.SqliteConnection;
@@ -27,8 +30,19 @@ public class ProjectDAO {
 	}
 
 	public List<Project> getAllProjects() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Project> projects = new ArrayList<>();
+		 try {
+		        String sql = "SELECT * FROM projects";
+		        Statement statement = connection.createStatement();
+	            ResultSet resultSet = statement.executeQuery(sql);		        
+	            while (resultSet.next()) {
+	                Project project = new Project(resultSet.getString("name"), resultSet.getString("description"), resultSet.getString("due_date"));
+	                projects.add(project);
+	            }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        }
+		return projects;
 	}
 
 	public boolean insertProject(Project project) {

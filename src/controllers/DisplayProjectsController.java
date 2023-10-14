@@ -10,7 +10,7 @@ public class DisplayProjectsController {
     private ProjectModel projectModel;
 
     public DisplayProjectsController() {
-        projectModel = new ProjectModel();
+        projectModel = new ProjectModel();        
     }
 
     public List<Project> getProjects() {
@@ -18,7 +18,7 @@ public class DisplayProjectsController {
     }
 
 	public String handleSubmitButtonClick(String name, String description, LocalDate localDate) {
-		ProjectModel projectModel = new ProjectModel();
+		projectModel = new ProjectModel();
         boolean success = projectModel.addProject(new Project(name, description, localDate.toString()));
 
         if (success) {
