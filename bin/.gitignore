@@ -1,4 +1,7 @@
-/DAL/
-/Model/
+/daos/
+/views/
+/controllers/
+/models/
 /application/
-/Controller/
+/BugMaster.db
+/config/

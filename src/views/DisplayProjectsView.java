@@ -19,7 +19,7 @@ public class DisplayProjectsView extends Base{
     	//content
         Label label = new Label("list of projs");
         
-        StackPane centerPane = new StackPane();
+        VBox centerPane = new VBox();
         centerPane.getChildren().add(label);
     
         //nav bar

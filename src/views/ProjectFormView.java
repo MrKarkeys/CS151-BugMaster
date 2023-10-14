@@ -1,5 +1,8 @@
 package views;
 
+import java.time.LocalDate;
+
+import controllers.DisplayProjectsController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -12,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import models.Project;
+import models.ProjectModel;
 
 public class ProjectFormView extends Base{
 	public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm)  {
@@ -25,6 +30,7 @@ public class ProjectFormView extends Base{
         Label pName= new Label("enter the name");
         Label pDesc= new Label("enter the description");
         Label pDate= new Label("enter the starting date");
+        Label filler= new Label(":)");
 
         //text fields and date picker for project info
         TextField projectName = new TextField();
@@ -39,22 +45,42 @@ public class ProjectFormView extends Base{
         
         //submit button
         Button subProj = new Button("Submit");
-        subProj.setOnAction(e -> {projectName.clear(); projectDescription.clear(); projectStartDate.setValue(java.time.LocalDate.now());});        //clear button
+        subProj.setOnAction(e -> {
+        	centerBox.getChildren().remove(centerBox.getChildren().size()-1); // clear bottom text on each project addition
+        	String name = projectName.getText();
+            String description = projectDescription.getText();
+            LocalDate localDate = projectStartDate.getValue();
+
+            DisplayProjectsController controller = new DisplayProjectsController();
+            String message = controller.handleSubmitButtonClick(name, description, localDate);
+
+            Label resultLabel = new Label(message);
+            centerBox.getChildren().add(resultLabel);
+        	
+        	clear(projectName, projectDescription, projectStartDate);
+        });
        
         //clear button
         Button clearProj = new Button("Clear");  
-        clearProj.setOnAction(e -> {projectName.clear(); projectDescription.clear(); projectStartDate.setValue(java.time.LocalDate.now());});
+        clearProj.setOnAction(e -> {clear(projectName, projectDescription, projectStartDate);});
        
         //create scene
         HBox buttons = new HBox (20);
         buttons.getChildren().addAll(subProj, clearProj);
         buttons.setAlignment(Pos.CENTER);
-        centerBox.getChildren().addAll(pName, projectName, pDesc, projectDescription, pDate, projectStartDate, buttons);
+        centerBox.getChildren().addAll(pName, projectName, pDesc, projectDescription, pDate, projectStartDate, buttons, filler);
         
         centerPane.getChildren().add(centerBox);
         mainPane.setCenter(centerPane);
 
         return mainPane;
+	}
+	
+	// clear fields
+	public void clear(TextField projectName, TextArea projectDescription, DatePicker projectStartDate) {
+		projectName.clear(); 
+    	projectDescription.clear(); 
+    	projectStartDate.setValue(java.time.LocalDate.now());
 	}
 
 

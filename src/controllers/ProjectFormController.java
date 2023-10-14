@@ -1,5 +1,9 @@
 package controllers;
 
-public class ProjectFormController {
+import models.ProjectModel;
 
+public class ProjectFormController {
+	public ProjectModel projectModel = new ProjectModel();
+	
+	
 }

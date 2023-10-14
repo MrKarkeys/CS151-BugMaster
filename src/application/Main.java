@@ -28,7 +28,7 @@ public class Main extends Application {
         Button toHome = new Button("home");
         
         DisplayProjectsView viewproj = new DisplayProjectsView();
-        Button toViewProj = new Button("view project");
+        Button toViewProj = new Button("view projects");
         
         ProjectFormView projForm = new ProjectFormView();
         Button toProjForm = new Button("create a project");

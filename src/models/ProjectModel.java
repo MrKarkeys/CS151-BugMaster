@@ -1,22 +1,24 @@
 package models;
 
-import java.sql.*;
-import config.SqliteConnection;
+import java.util.List;
+import daos.ProjectDAO;
 
 public class ProjectModel {
-	Connection connection;
-	
-	public ProjectModel () {
-		connection = SqliteConnection.Connector();
-		if (connection == null) System.exit(1); // exit application if database fails to connect
-	}
-	
-	public boolean isDBConnected() {
-		try {
-			return !connection.isClosed();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+	private ProjectDAO projectDAO;
+
+    public ProjectModel() {
+        projectDAO = new ProjectDAO();
+    }
+
+    public boolean isDBConnected() {
+        return projectDAO.validDBConnection();
+    }
+    
+    public List<Project> getAllProjects() {
+        return projectDAO.getAllProjects();
+    }
+
+    public boolean addProject(Project project) {
+        return projectDAO.insertProject(project);
+    }
 }
