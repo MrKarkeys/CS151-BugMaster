@@ -1,16 +1,9 @@
 package application;
 	
 import javafx.application.Application;
-import javafx.event.EventHandler;
+
 import javafx.scene.Scene; 
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.geometry.*;
 import javafx.stage.Stage;
 import views.HomePageView;
 import views.ProjectFormView;

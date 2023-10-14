@@ -1,11 +1,9 @@
 package views;
 
 import java.time.LocalDate;
-
-import controllers.DisplayProjectsController;
+import controllers.ProjectFormController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -15,8 +13,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import models.Project;
-import models.ProjectModel;
 
 public class ProjectFormView extends Base{
 	public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm)  {
@@ -51,7 +47,7 @@ public class ProjectFormView extends Base{
             String description = projectDescription.getText();
             LocalDate localDate = projectStartDate.getValue();
 
-            DisplayProjectsController controller = new DisplayProjectsController();
+            ProjectFormController controller = new ProjectFormController();
             String message = controller.handleSubmitButtonClick(name, description, localDate);
 
             Label resultLabel = new Label(message);

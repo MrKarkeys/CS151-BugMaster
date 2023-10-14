@@ -10,7 +10,6 @@ import java.util.List;
 
 import config.SqliteConnection;
 import models.Project;
-import models.ProjectModel;
 
 public class ProjectDAO {
 	Connection connection;
@@ -29,6 +28,9 @@ public class ProjectDAO {
 		}
 	}
 
+	/** 
+	 * @return a list of projects
+	 */
 	public List<Project> getAllProjects() {
 		List<Project> projects = new ArrayList<>();
 		 try {
@@ -45,12 +47,12 @@ public class ProjectDAO {
 		return projects;
 	}
 
+	/**
+	 * @param project is the project that you want to save
+	 * @return a boolean to show if it was successful
+	 */
 	public boolean insertProject(Project project) {
 	    try {
-	        if (!isProjectsTableExists()) {
-	            createProjectsTable();
-	        }
-
 	        String sql = "INSERT INTO projects (name, description, due_date) VALUES (?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(sql);
 	        statement.setString(1, project.getName());
@@ -61,27 +63,6 @@ public class ProjectDAO {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return false;
-	    }
-	}
-
-	private boolean isProjectsTableExists() {
-	    try {
-	        String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='projects'";
-	        PreparedStatement statement = connection.prepareStatement(sql);
-	        return statement.executeQuery().next();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return false;
-	    }
-	}
-
-	private void createProjectsTable() {
-	    try {
-	        String sql = "CREATE TABLE projects (id INTEGER PRIMARY KEY, name TEXT, description TEXT, due_date DATE)";
-	        PreparedStatement statement = connection.prepareStatement(sql);
-	        statement.executeUpdate();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
 	    }
 	}
 
