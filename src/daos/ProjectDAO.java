@@ -33,17 +33,20 @@ public class ProjectDAO {
 	 */
 	public List<Project> getAllProjects() {
 		List<Project> projects = new ArrayList<>();
-		 try {
-		        String sql = "SELECT * FROM projects";
-		        Statement statement = connection.createStatement();
-	            ResultSet resultSet = statement.executeQuery(sql);		        
-	            while (resultSet.next()) {
-	                Project project = new Project(resultSet.getString("name"), resultSet.getString("description"), resultSet.getString("due_date"));
-	                projects.add(project);
-	            }
-		    } catch (SQLException e) {
-		        e.printStackTrace();
-		        }
+		try {
+			if (!isProjectsTableExists()) {
+				createProjectsTable();
+			}
+		    String sql = "SELECT * FROM projects";
+		    Statement statement = connection.createStatement();
+	        ResultSet resultSet = statement.executeQuery(sql);		        
+	        while (resultSet.next()) {
+	        	Project project = new Project(resultSet.getString("name"), resultSet.getString("description"), resultSet.getString("due_date"));
+	        	projects.add(project);
+	        }
+		 } catch (SQLException e) {
+		     e.printStackTrace();
+		 }
 		return projects;
 	}
 
@@ -53,6 +56,9 @@ public class ProjectDAO {
 	 */
 	public boolean insertProject(Project project) {
 	    try {
+	    	if (!isProjectsTableExists()) {
+	    		createProjectsTable();
+	        }
 	        String sql = "INSERT INTO projects (name, description, due_date) VALUES (?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(sql);
 	        statement.setString(1, project.getName());
@@ -65,5 +71,29 @@ public class ProjectDAO {
 	        return false;
 	    }
 	}
+	
+	/**
+	 * @return a boolean to show if table called "projects" exists in database
+	 */
+	private boolean isProjectsTableExists() {
+        try {
+            String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='projects'";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            return statement.executeQuery().next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void createProjectsTable() {
+        try {
+            String sql = "CREATE TABLE projects (id INTEGER PRIMARY KEY, name TEXT, description TEXT, due_date DATE)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
