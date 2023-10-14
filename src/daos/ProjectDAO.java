@@ -57,7 +57,7 @@ public class ProjectDAO {
 	public boolean insertProject(Project project) {
 	    try {
 	    	if (!isProjectsTableExists()) {
-	                createProjectsTable();
+	    		createProjectsTable();
 	        }
 	        String sql = "INSERT INTO projects (name, description, due_date) VALUES (?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(sql);
@@ -72,6 +72,9 @@ public class ProjectDAO {
 	    }
 	}
 	
+	/**
+	 * @return a boolean to show if table called "projects" exists in database
+	 */
 	private boolean isProjectsTableExists() {
         try {
             String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='projects'";
