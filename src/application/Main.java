@@ -1,8 +1,5 @@
 package application;
 	
-import Model.HomePage;
-import Model.ProjectFormPage;
-import Model.ViewProjectPage;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene; 
@@ -14,7 +11,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.geometry.*;
-import javafx.stage.Stage; 
+import javafx.stage.Stage;
+import views.HomePageView;
+import views.ProjectFormView;
+import views.DisplayProjectsView; 
 
 public class Main extends Application {
 	Scene scene;
@@ -24,13 +24,13 @@ public class Main extends Application {
         s.setTitle("BugMaster"); 
   
         //buttons and pages
-        HomePage home = new HomePage();
+        HomePageView home = new HomePageView();
         Button toHome = new Button("home");
         
-        ViewProjectPage viewproj = new ViewProjectPage();
+        DisplayProjectsView viewproj = new DisplayProjectsView();
         Button toViewProj = new Button("view project");
         
-        ProjectFormPage projForm = new ProjectFormPage();
+        ProjectFormView projForm = new ProjectFormView();
         Button toProjForm = new Button("create a project");
         
         //styling buttons

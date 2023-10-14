@@ -1,4 +1,4 @@
-package Model;
+package views;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -8,9 +8,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class HomePage extends Base{
+public class HomePageView extends Base{
 	public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm) {
-		
 		//content here
 		Label label = new Label("home");
         label.setStyle("-fx-font: normal bold 80px elephant; -fx-text-fill: darkolivegreen;");

@@ -1,4 +1,4 @@
-package Model;
+package views;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class ViewProjectPage extends Base{
+public class DisplayProjectsView extends Base{
 
     public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm) {
         
