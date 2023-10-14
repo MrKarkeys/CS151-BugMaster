@@ -15,7 +15,7 @@ public class ProjectDAO {
 	Connection connection;
 	
 	public ProjectDAO () {
-		connection = SqliteConnection.Connector();
+		connection = startConnection();
 		if (connection == null) System.exit(1); // exit application if database fails to connect
 	}
 	
@@ -37,16 +37,18 @@ public class ProjectDAO {
 			if (!isProjectsTableExists()) {
 				createProjectsTable();
 			}
-		    String sql = "SELECT * FROM projects";
+		    String query = "SELECT * FROM projects";
 		    Statement statement = connection.createStatement();
-	        ResultSet resultSet = statement.executeQuery(sql);		        
-	        while (resultSet.next()) {
-	        	Project project = new Project(resultSet.getString("name"), resultSet.getString("description"), resultSet.getString("due_date"));
+	        ResultSet entries = statement.executeQuery(query);		        
+	        while (entries.next()) {
+	        	Project project = new Project(entries.getString("name"), entries.getString("description"), entries.getString("due_date"));
 	        	projects.add(project);
 	        }
 		 } catch (SQLException e) {
 		     e.printStackTrace();
-		 }
+		 } finally {
+			 closeConnection();
+	     }
 		return projects;
 	}
 
@@ -59,8 +61,8 @@ public class ProjectDAO {
 	    	if (!isProjectsTableExists()) {
 	    		createProjectsTable();
 	        }
-	        String sql = "INSERT INTO projects (name, description, due_date) VALUES (?, ?, ?)";
-	        PreparedStatement statement = connection.prepareStatement(sql);
+	        String query = "INSERT INTO projects (name, description, due_date) VALUES (?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, project.getName());
 	        statement.setString(2, project.getDescription());
 	        statement.setString(3, project.getDate());
@@ -69,7 +71,9 @@ public class ProjectDAO {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return false;
-	    }
+	    } finally {
+        	closeConnection();
+        }
 	}
 	
 	/**
@@ -77,8 +81,9 @@ public class ProjectDAO {
 	 */
 	private boolean isProjectsTableExists() {
         try {
-            String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='projects'";
-            PreparedStatement statement = connection.prepareStatement(sql);
+        	// SQL query to check for a table called "projects" in user's local database
+            String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='projects'";
+            PreparedStatement statement = connection.prepareStatement(query);
             return statement.executeQuery().next();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,11 +93,31 @@ public class ProjectDAO {
 
     private void createProjectsTable() {
         try {
-            String sql = "CREATE TABLE projects (id INTEGER PRIMARY KEY, name TEXT, description TEXT, due_date DATE)";
-            PreparedStatement statement = connection.prepareStatement(sql);
+        	// create a table "projects" in the user's local database
+            String query = "CREATE TABLE projects (id INTEGER PRIMARY KEY, name TEXT, description TEXT, due_date DATE)";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    
+    /**
+     * @return a new connection to the database
+     */
+    private Connection startConnection() {
+    	connection = SqliteConnection.Connector();
+		if (connection == null) System.exit(1); // exit application if database fails to connect
+		return connection;
+    }
+    
+    private void closeConnection() {
+    	if (connection != null) { // only try to close an existing connection
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
