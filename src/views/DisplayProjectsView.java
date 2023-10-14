@@ -2,33 +2,50 @@ package views;
 
 import java.util.*;
 import controllers.DisplayProjectsController;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import models.Project;
 
 public class DisplayProjectsView extends Base{
 
     public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm) {
-        
-    	//content
-        Label label = new Label("list of projs");
-        
-        VBox centerPane = new VBox();
-        centerPane.getChildren().add(label);
-    
-        //nav bar
+    	
+    	//nav bar
         BorderPane mainPane = createBase(toHomepage, toViewProj, toProjForm);
+        
+        // table of projects
+    	BorderPane centerPane = new BorderPane();
+        Label label = new Label("list of projects");
+        label.setStyle("-fx-font: normal bold 50px elephant; -fx-text-fill: darkolivegreen;");
+        centerPane.setTop(label);
+        BorderPane.setAlignment(label, Pos.CENTER);
+        
+        TilePane projectsTable = new TilePane();
+        projectsTable.setHgap(50);
+        projectsTable.setVgap(30);
+        
         DisplayProjectsController controller = new DisplayProjectsController();
         List<Project> Projects = controller.getProjects();
         for(int i = 0; i < Projects.size(); i++) {
-            Label Projectlable = new Label(Projects.get(i).getName() + " " 
-        + Projects.get(i).getDescription() + " " + Projects.get(i).getDate());
-        	centerPane.getChildren().add(Projectlable);
+        	VBox projectBox = new VBox();
+            Label projectName = new Label(Projects.get(i).getName());
+            projectName.setStyle("-fx-font: normal bold 22.5px elephant; -fx-text-fill: darkolivegreen;");
+            Label projectDesc = new Label(Projects.get(i).getDescription());
+            projectDesc.setStyle("-fx-font: normal bold 17.5px elephant; -fx-text-fill: darkolivegreen;");
+            projectDesc.setWrapText(true);
+            projectDesc.setMaxWidth(400);
+            Label projectLabel = new Label(Projects.get(i).getDate());
+            projectLabel.setStyle("-fx-font: normal bold 15px elephant; -fx-text-fill: darkolivegreen;");
+            
+            projectBox.getChildren().addAll(projectName, projectDesc, projectLabel);
+            projectsTable.getChildren().add(projectBox);
         }
+        centerPane.setCenter(projectsTable);
         mainPane.setCenter(centerPane);
-        
 
         return mainPane;
     }
