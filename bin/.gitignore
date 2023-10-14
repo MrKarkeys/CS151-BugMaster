@@ -1,2 +1,6 @@
 /controllers/
 /views/
+/application/
+/config/
+/daos/
+/models/
