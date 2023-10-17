@@ -15,12 +15,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class ProjectFormView extends Base{
-	public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm)  {
+	public BorderPane render(Button home, Button viewProj, Button projForm, Button ticForm, Button comForm)   {
 		       
         StackPane centerPane = new StackPane();
         
         //nav bar
-        BorderPane mainPane = createBase(toHomepage, toViewProj, toProjForm);
+        BorderPane mainPane = createBase(home, viewProj, projForm,ticForm, comForm);
+        projForm.setStyle("-fx-background-color: WHEAT");
+
 
         //labels for text fields and date picker
         Label pName= new Label("enter the name");

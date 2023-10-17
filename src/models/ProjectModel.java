@@ -4,7 +4,7 @@ import java.util.List;
 import daos.ProjectDAO;
 
 public class ProjectModel {
-	private ProjectDAO projectDAO;
+	private static ProjectDAO projectDAO;
 
     public ProjectModel() {
         projectDAO = new ProjectDAO();
@@ -14,7 +14,7 @@ public class ProjectModel {
         return projectDAO.validDBConnection();
     }
     
-    public List<Project> getAllProjects() {
+    public static List<Project> getAllProjects() {
         return projectDAO.getAllProjects();
     }
 

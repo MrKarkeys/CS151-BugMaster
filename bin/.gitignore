@@ -1,6 +1,5 @@
-/controllers/
-/views/
 /application/
-/config/
+/views/
+/controllers/
 /daos/
 /models/

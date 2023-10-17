@@ -12,11 +12,12 @@ import models.Project;
 
 public class DisplayProjectsView extends Base{
 
-    public BorderPane render(Button toHomepage, Button toViewProj, Button toProjForm) {
+    public BorderPane render(Button home, Button viewProj, Button projForm, Button ticForm, Button comForm) {
     	
     	//nav bar
-        BorderPane mainPane = createBase(toHomepage, toViewProj, toProjForm);
-        
+        BorderPane mainPane = createBase(home, viewProj, projForm,ticForm, comForm);
+        viewProj.setStyle("-fx-background-color: WHEAT");
+
         // table of projects
     	BorderPane centerPane = new BorderPane();
         Label label = new Label("list of projects");
