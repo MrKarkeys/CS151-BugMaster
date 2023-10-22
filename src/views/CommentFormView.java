@@ -40,15 +40,37 @@ import models.ProjectModel;
 	        //CHANGE TO LIST OF PROJECTS
 	        List<String> allProj = Arrays.asList("proj1", "proj2");
 			ComboBox<String> combo_boxP =  new ComboBox<String>(FXCollections.observableList(allProj));
-	        TilePane dropdownP = new TilePane(combo_boxP);
+	        TilePane dropdownP = new TilePane(combo_boxP);			
+	        dropdownP.setAlignment(Pos.CENTER);
+
 	        //CHANGE TO LIST OF TICKETS
 	        List<String> allTic = Arrays.asList("ticket1", "ticket2");
 			ComboBox<String> combo_boxC = new ComboBox<String>(FXCollections.observableList(allTic));
 			TilePane dropdownC = new TilePane(combo_boxC);
-	        
+			dropdownC.setAlignment(Pos.CENTER);
+
+			VBox chooseProj = new VBox(20);
+			chooseProj.getChildren().addAll(pName,dropdownP);
+			chooseProj.setPadding(new Insets(10));
+			chooseProj.setAlignment(Pos.CENTER);
+
+			VBox chooseTic = new VBox(20);
+			chooseTic.getChildren().addAll(tName,dropdownC);
+			chooseTic.setPadding(new Insets(10));
+			chooseTic.setAlignment(Pos.CENTER);
+
+			HBox choosePT = new HBox(20);
+			choosePT.getChildren().addAll(chooseProj,chooseTic);
+			choosePT.setPadding(new Insets(10));
+			choosePT.setAlignment(Pos.CENTER);
+			
 	        TextField ticketName = new TextField();
 	        TextArea cDescription = new TextArea();
 	        
+	        //ticket info and at least 2 comments added to this ticket ex.
+	        Label ticketInfo = new Label("Ticket Info: this ticket talks about ____ bug that affects ____");
+	        Label commentex1 = new Label("Comment: made ____ changes to ____");
+	        Label commentex2 = new Label("Comment: create new ____ to ____ class");
 	       
 	        DatePicker commentStartDate= new DatePicker();
 	        TextField commentDate = new TextField();
@@ -60,8 +82,7 @@ import models.ProjectModel;
 	        VBox centerBox = new VBox(20);
 	        centerBox.setPadding(new Insets(10));
 	        centerBox.setAlignment(Pos.CENTER);
-	        dropdownP.setAlignment(Pos.CENTER);
-	        dropdownC.setAlignment(Pos.CENTER);
+
 	        
 	        //submit button
 	        //CHANGE THIS AFTER MAKING THE COMMENT MODEL
@@ -88,7 +109,7 @@ import models.ProjectModel;
 	        HBox buttons = new HBox (20);
 	        buttons.getChildren().addAll(subTic, clearTic);
 	        buttons.setAlignment(Pos.CENTER);
-	        centerBox.getChildren().addAll(pName, dropdownP, tName, dropdownC, cDescription, commentDate, buttons, filler);
+	        centerBox.getChildren().addAll(choosePT,ticketInfo,commentex1,commentex2,cDescription, commentDate, buttons, filler);
 	        centerPane.getChildren().add(centerBox);
 	        mainPane.setCenter(centerPane);
 	        
