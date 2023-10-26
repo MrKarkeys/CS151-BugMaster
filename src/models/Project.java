@@ -1,16 +1,20 @@
 package models;
 
-import java.sql.Date;
-
 public class Project {
     private String name;
     private String description;
     private String date;
+	private int id;
 
     public Project(String name, String description, String date) {
         this.name = name;
         this.description = description;
         this.date = date;
+    }
+    
+    public Project(int id, String name, String description, String date) {
+    	this(name, description, date);
+    	this.id = id;
     }
     
     public String getName() {
@@ -23,5 +27,9 @@ public class Project {
 	
 	public String getDate() {
 		return this.date;
+	}
+
+	public int getId() {
+		return this.id;
 	}
 }
