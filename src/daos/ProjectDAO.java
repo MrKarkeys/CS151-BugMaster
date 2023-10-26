@@ -10,6 +10,7 @@ import java.util.List;
 
 import config.SqliteConnection;
 import models.Project;
+import models.Ticket;
 
 public class ProjectDAO {
 	Connection connection;
@@ -41,7 +42,7 @@ public class ProjectDAO {
 		    Statement statement = connection.createStatement();
 	        ResultSet entries = statement.executeQuery(query);		        
 	        while (entries.next()) {
-	        	Project project = new Project(entries.getString("name"), entries.getString("description"), entries.getString("due_date"));
+	        	Project project = new Project(entries.getInt("id"), entries.getString("name"), entries.getString("description"), entries.getString("due_date"));
 	        	projects.add(project);
 	        }
 		 } catch (SQLException e) {
@@ -93,6 +94,7 @@ public class ProjectDAO {
 	        if (results.next()) {
 	            // Create a new Project object from the results
 	            Project project = new Project(
+	            		results.getInt("id"),
 	            		results.getString("name"),
 	            		results.getString("description"),
 	            		results.getString("due_date")
@@ -166,5 +168,83 @@ public class ProjectDAO {
             }
         }
     }
+
+	public boolean insertTicket(Ticket ticket) {
+		try {
+	    	if (!isTicketsTableExists()) {
+	    		createTicketsTable();
+	        }
+	    	if (getTicketByName(ticket.getName()) != null) {
+	    		return false;
+	    	}
+	        String query = "INSERT INTO tickets (projectId, name, description, due_date) VALUES (?, ?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setInt(1, ticket.getProjectId());
+	        statement.setString(2, ticket.getName());
+	        statement.setString(3, ticket.getDescription());
+	        statement.setString(4, ticket.getDate());
+	        int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    } finally {
+        	closeConnection();
+        }
+	}
+
+	private boolean isTicketsTableExists() {
+		try {
+        	// SQL query to check for a table called "projects" in user's local database
+            String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='tickets'";
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeQuery().next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+	}
+
+	private void createTicketsTable() {
+		try {
+	        // Create the `tickets` table
+	        String createTableQuery = "CREATE TABLE tickets (id INTEGER PRIMARY KEY, projectId INTEGER, name TEXT, description TEXT, due_date DATE)";
+	        PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
+	        createTableStatement.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	private Object getTicketByName(String name) {
+		try {			
+	        // Create a prepared statement to get the project by name
+	        String query = "SELECT * FROM tickets WHERE name = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, name);
+
+	        // Execute the prepared statement and get the results
+	        ResultSet results = statement.executeQuery();
+
+	        // Check if the results contain a row
+	        if (results.next()) {
+	            // Create a new Project object from the results
+	            Ticket ticket = new Ticket(
+	            		results.getInt("id"),
+	            		results.getInt("projectId"),
+	            		results.getString("name"),
+	            		results.getString("description"),
+	            		results.getString("due_date")
+	            	);
+
+	            return ticket;
+	        } else {
+	            return null;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 
 }
