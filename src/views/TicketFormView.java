@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import controllers.ProjectFormController;
+import controllers.TicketFormController;
 import daos.ProjectDAO;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -63,11 +64,13 @@ import models.ProjectModel;
 	        Button subTic = new Button("Submit");
 	        subTic.setOnAction(e -> {
 	        	centerBox.getChildren().remove(centerBox.getChildren().size()-1); // clear bottom text on each project addition
+	        	String projectName = combo_box.getValue();
+	            int projectId = projects.get(projectNames.indexOf(projectName)).getId();
 	        	String name = ticketName.getText();
 	            String description = ticketDescription.getText();
 	            LocalDate localDate = ticketStartDate.getValue();
-	            ProjectFormController controller = new ProjectFormController();
-	            String message = controller.handleSubmitButtonClick(name, description, localDate);
+	            TicketFormController controller = new TicketFormController();
+	            String message = controller.handleSubmitButtonClick(projectId, name, description, localDate);
 
 	            Label resultLabel = new Label(message);
 	            centerBox.getChildren().add(resultLabel);
