@@ -1,5 +1,7 @@
 package models;
 
+import java.sql.Date;
+
 public class Project {
     private String name;
     private String description;

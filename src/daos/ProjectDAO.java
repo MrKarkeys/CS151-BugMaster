@@ -61,6 +61,9 @@ public class ProjectDAO {
 	    	if (!isProjectsTableExists()) {
 	    		createProjectsTable();
 	        }
+	    	if (getProjectByName(project.getName()) != null) {
+	    		return false;
+	    	}
 	        String query = "INSERT INTO projects (name, description, due_date) VALUES (?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, project.getName());
@@ -76,6 +79,36 @@ public class ProjectDAO {
         }
 	}
 	
+	private Project getProjectByName(String name) {
+	    try {
+	        // Create a prepared statement to get the project by name
+	        String query = "SELECT * FROM projects WHERE name = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, name);
+
+	        // Execute the prepared statement and get the results
+	        ResultSet results = statement.executeQuery();
+
+	        // Check if the results contain a row
+	        if (results.next()) {
+	            // Create a new Project object from the results
+	            Project project = new Project(
+	            		results.getString("name"),
+	            		results.getString("description"),
+	            		results.getString("due_date")
+	            	);
+
+	            return project;
+	        } else {
+	            return null;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+
+
 	/**
 	 * @return a boolean to show if table called "projects" exists in database
 	 */
