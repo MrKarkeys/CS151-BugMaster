@@ -3,8 +3,10 @@ package views;
 	import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import controllers.ProjectFormController;
+import daos.ProjectDAO;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 	import javafx.geometry.Pos;
@@ -40,8 +42,9 @@ import models.ProjectModel;
 	        //text fields and date picker for project info
 	        
 	        //CHANGE TO LIST OF PROJECTS
-	        List<String> allProj = Arrays.asList("proj1", "proj2");
-			ComboBox<String> combo_box =  new ComboBox<String>(FXCollections.observableList(allProj));
+	        List<Project> projects = (new ProjectDAO()).getAllProjects();
+	        List<String> projectNames = projects.stream().map(Project::getName).collect(Collectors.toList());
+			ComboBox<String> combo_box =  new ComboBox<String>(FXCollections.observableList(projectNames));
 	        TilePane dropdown = new TilePane(combo_box);
 	        TextField ticketName = new TextField();
 	        TextArea ticketDescription = new TextArea();
