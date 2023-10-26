@@ -91,16 +91,29 @@ public class ProjectDAO {
         }
     }
 
-    private void createProjectsTable() {
-        try {
-        	// create a table "projects" in the user's local database
-            String query = "CREATE TABLE projects (id INTEGER PRIMARY KEY, name TEXT, description TEXT, due_date DATE)";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	private void createProjectsTable() {
+	    try {
+	        // Create the `projects` table
+	        String createTableQuery = "CREATE TABLE projects (id INTEGER PRIMARY KEY, name TEXT, description TEXT, due_date DATE)";
+	        PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
+	        createTableStatement.executeUpdate();
+
+	        // Insert the projects
+	        String[] insertQueries = {
+	                "INSERT INTO projects (name, description, due_date) VALUES ('First', 'Really cool project', '12/31/2025')",
+	                "INSERT INTO projects (name, description, due_date) VALUES ('Second', 'Kinda cool project', '12/31/2025')",
+	                "INSERT INTO projects (name, description, due_date) VALUES ('Third', 'Not cool project', '12/31/2025')",
+	        };
+
+	        for (String insertQuery : insertQueries) {
+	            PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+	            insertStatement.executeUpdate();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
     
     /**
      * @return a new connection to the database
