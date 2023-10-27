@@ -14,12 +14,12 @@ public class CommentFormController {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         String formattedDate = localDate.format(format);
         
-        boolean success = (new ProjectDAO()).insertTicket(new Ticket(projectId, name, description, formattedDate));
+        boolean success = (new ProjectDAO()).insertTicket(new Comment(projectId, description, formattedDate));
 
         if (success) {
-            return "Project \"" + name + "\" was successfully added.";
+            return "Comment was successfully added.";
         } else {
-            return "Project \"" + name + "\" was not added.";
+            return "Comment was not added.";
         }
 	}
 	
