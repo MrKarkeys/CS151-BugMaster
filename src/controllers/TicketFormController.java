@@ -2,6 +2,8 @@ package controllers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import daos.ProjectDAO;
 import models.Project;
@@ -17,9 +19,9 @@ public class TicketFormController {
         boolean success = (new ProjectDAO()).insertTicket(new Ticket(projectId, name, description, formattedDate));
 
         if (success) {
-            return "Project \"" + name + "\" was successfully added.";
+            return "Ticket \"" + name + "\" was successfully added.";
         } else {
-            return "Project \"" + name + "\" was not added.";
+            return "Ticket \"" + name + "\" was not added.";
         }
 	}
 }
