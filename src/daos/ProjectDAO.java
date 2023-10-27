@@ -110,6 +110,35 @@ public class ProjectDAO {
 	    }
 	}
 
+	public Project getProjectByID(int id) {
+	    try {
+	        // Create a prepared statement to get the project by name
+	        String query = "SELECT * FROM projects WHERE id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setInt(1, id);
+
+	        // Execute the prepared statement and get the results
+	        ResultSet results = statement.executeQuery();
+
+	        // Check if the results contain a row
+	        if (results.next()) {
+	            // Create a new Project object from the results
+	            Project project = new Project(
+	            		results.getInt("id"),
+	            		results.getString("name"),
+	            		results.getString("description"),
+	            		results.getString("due_date")
+	            	);
+
+	            return project;
+	        } else {
+	            return null;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 
 	/**
 	 * @return a boolean to show if table called "projects" exists in database
@@ -245,6 +274,30 @@ public class ProjectDAO {
 	        e.printStackTrace();
 	        return null;
 	    }
+	}
+	
+	/** 
+	 * @return a list of projects
+	 */
+	public List<Ticket> getAllTickets() {
+		List<Ticket> tickets = new ArrayList<>();
+		try {
+			if (!isTicketsTableExists()) {
+				createTicketsTable();
+			}
+		    String query = "SELECT * FROM tickets";
+		    Statement statement = connection.createStatement();
+	        ResultSet entries = statement.executeQuery(query);		        
+	        while (entries.next()) {
+	        	Ticket ticket = new Ticket(entries.getInt("id"), entries.getInt("projectid"), entries.getString("name"), entries.getString("description"), entries.getString("due_date"));
+	        	tickets.add(ticket);
+	        }
+		 } catch (SQLException e) {
+		     e.printStackTrace();
+		 } finally {
+			 closeConnection();
+	     }
+		return tickets;
 	}
 
 }
