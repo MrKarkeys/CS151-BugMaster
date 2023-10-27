@@ -80,7 +80,7 @@ public class ProjectDAO {
         }
 	}
 	
-	private Project getProjectByName(String name) {
+	public Project getProjectByName(String name) {
 	    try {
 	        // Create a prepared statement to get the project by name
 	        String query = "SELECT * FROM projects WHERE name = ?";

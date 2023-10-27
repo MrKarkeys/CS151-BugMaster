@@ -42,6 +42,7 @@ import models.ProjectModel;
 	        //CHANGE TO LIST OF PROJECTS
 	        List<Project> projects = (new ProjectDAO()).getAllProjects();
 	        List<String> projectNames = projects.stream().map(Project::getName).collect(Collectors.toList());
+	        projectNames.sort((a, b) -> a.compareTo(b));
 			ComboBox<String> combo_boxP =  new ComboBox<String>(FXCollections.observableList(projectNames));
 	        TilePane dropdownP = new TilePane(combo_boxP);			
 	        dropdownP.setAlignment(Pos.CENTER);

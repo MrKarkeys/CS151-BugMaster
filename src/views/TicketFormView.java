@@ -45,6 +45,7 @@ import models.ProjectModel;
 	        //CHANGE TO LIST OF PROJECTS
 	        List<Project> projects = (new ProjectDAO()).getAllProjects();
 	        List<String> projectNames = projects.stream().map(Project::getName).collect(Collectors.toList());
+	        projectNames.sort((a, b) -> a.compareTo(b));
 			ComboBox<String> combo_box =  new ComboBox<String>(FXCollections.observableList(projectNames));
 	        TilePane dropdown = new TilePane(combo_box);
 	        TextField ticketName = new TextField();
@@ -65,7 +66,7 @@ import models.ProjectModel;
 	        subTic.setOnAction(e -> {
 	        	centerBox.getChildren().remove(centerBox.getChildren().size()-1); // clear bottom text on each project addition
 	        	String projectName = combo_box.getValue();
-	            int projectId = projects.get(projectNames.indexOf(projectName)).getId();
+	            int projectId = (new ProjectDAO()).getProjectByName(projectName).getId();
 	        	String name = ticketName.getText();
 	            String description = ticketDescription.getText();
 	            LocalDate localDate = ticketStartDate.getValue();
