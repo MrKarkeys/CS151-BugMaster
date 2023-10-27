@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import config.SqliteConnection;
+import models.Comment;
 import models.Project;
 import models.Ticket;
 
@@ -107,7 +108,9 @@ public class ProjectDAO {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return null;
-	    }
+	    } finally {
+        	closeConnection();
+        }
 	}
 
 	public Project getProjectByID(int id) {
@@ -137,7 +140,9 @@ public class ProjectDAO {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return null;
-	    }
+	    } finally {
+        	closeConnection();
+        }
 	}
 
 	/**
@@ -298,6 +303,18 @@ public class ProjectDAO {
 			 closeConnection();
 	     }
 		return tickets;
+	}
+
+	public boolean insertComment(Comment comment) {
+		 try {
+			 
+//		 } catch (SQLException e) {
+			 
+		 } finally {
+	        	closeConnection();
+	        }
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

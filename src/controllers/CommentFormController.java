@@ -7,6 +7,7 @@ import java.util.List;
 
 import daos.ProjectDAO;
 import models.Ticket;
+import models.Comment;
 
 public class CommentFormController {
 	public String handleSubmitButtonClick(int projectId, int ticketId, String description, LocalDate localDate) {
@@ -14,7 +15,7 @@ public class CommentFormController {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         String formattedDate = localDate.format(format);
         
-        boolean success = (new ProjectDAO()).insertTicket(new Comment(projectId, description, formattedDate));
+        boolean success = (new ProjectDAO()).insertComment(new Comment(projectId, description, formattedDate));
 
         if (success) {
             return "Comment was successfully added.";
@@ -27,7 +28,7 @@ public class CommentFormController {
 	 * used to populate the form on create comment page
 	 * @return 'ticketName: ProjectName'
 	 */
-	public List<String> getTicketNames() {
+	public static List<String> getTicketNames() {
 		List<String> res = new ArrayList<String>();
 		
 		List<Ticket> tickets = (new ProjectDAO()).getAllTickets();

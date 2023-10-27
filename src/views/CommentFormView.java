@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import controllers.CommentFormController;
 import controllers.ProjectFormController;
 import daos.ProjectDAO;
 import javafx.collections.FXCollections;
@@ -23,6 +24,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import models.Project;
 import models.ProjectModel;
+import models.Ticket;
 
 	public class CommentFormView  extends Base{
 		public BorderPane render(Button home, Button viewProj, Button projForm, Button ticForm, Button comForm )  {
@@ -48,8 +50,9 @@ import models.ProjectModel;
 	        dropdownP.setAlignment(Pos.CENTER);
 
 	        //CHANGE TO LIST OF TICKETS
-	        List<String> allTic = Arrays.asList("ticket1", "ticket2");
-			ComboBox<String> combo_boxC = new ComboBox<String>(FXCollections.observableList(allTic));
+	        List<String> ticketProjectNames = CommentFormController.getTicketNames();
+	        projectNames.sort((a, b) -> a.compareTo(b));
+			ComboBox<String> combo_boxC = new ComboBox<String>(FXCollections.observableList(ticketProjectNames));
 			TilePane dropdownC = new TilePane(combo_boxC);
 			dropdownC.setAlignment(Pos.CENTER);
 
