@@ -53,20 +53,10 @@ import models.ProjectModel;
 			TilePane dropdownC = new TilePane(combo_boxC);
 			dropdownC.setAlignment(Pos.CENTER);
 
-			VBox chooseProj = new VBox(20);
-			chooseProj.getChildren().addAll(pName,dropdownP);
-			chooseProj.setPadding(new Insets(10));
-			chooseProj.setAlignment(Pos.CENTER);
-
 			VBox chooseTic = new VBox(20);
 			chooseTic.getChildren().addAll(tName,dropdownC);
 			chooseTic.setPadding(new Insets(10));
 			chooseTic.setAlignment(Pos.CENTER);
-
-			HBox choosePT = new HBox(20);
-			choosePT.getChildren().addAll(chooseProj,chooseTic);
-			choosePT.setPadding(new Insets(10));
-			choosePT.setAlignment(Pos.CENTER);
 			
 	        TextField ticketName = new TextField();
 	        TextArea cDescription = new TextArea();
@@ -113,7 +103,7 @@ import models.ProjectModel;
 	        HBox buttons = new HBox (20);
 	        buttons.getChildren().addAll(subTic, clearTic);
 	        buttons.setAlignment(Pos.CENTER);
-	        centerBox.getChildren().addAll(choosePT,ticketInfo,commentex1,commentex2,cDescription, commentDate, buttons, filler);
+	        centerBox.getChildren().addAll(chooseTic,ticketInfo,commentex1,commentex2,cDescription, commentDate, buttons, filler);
 	        centerPane.getChildren().add(centerBox);
 	        mainPane.setCenter(centerPane);
 	        
