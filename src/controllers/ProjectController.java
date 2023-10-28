@@ -2,12 +2,17 @@ package controllers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import models.Project;
 import models.ProjectModel;
 
-public class ProjectFormController {
+public class ProjectController {
 	private ProjectModel projectModel;
+	
+	public ProjectController() {
+        projectModel = new ProjectModel();        
+    }
 	
 	/**
      * @param name
@@ -28,6 +33,10 @@ public class ProjectFormController {
         } else {
             return "Project \"" + name + "\" was not added.";
         }
+	}
+	
+	public List<Project> getProjects() {
+        return projectModel.getAllProjects();
 	}
 	
 }

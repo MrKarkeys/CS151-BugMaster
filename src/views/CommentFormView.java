@@ -1,10 +1,11 @@
 package views;
 	
 	import java.time.LocalDate;
+
 import java.util.Arrays;
 import java.util.List;
 
-import controllers.ProjectFormController;
+import controllers.ProjectController;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 	import javafx.geometry.Pos;
@@ -19,8 +20,6 @@ import javafx.scene.control.DatePicker;
 	import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import models.Project;
-import models.ProjectModel;
 
 	public class CommentFormView  extends Base{
 		public BorderPane render(Button home, Button viewProj, Button projForm, Button ticForm, Button comForm )  {
@@ -92,7 +91,7 @@ import models.ProjectModel;
 	        	String name = ticketName.getText();
 	            String description = cDescription.getText();
 	            LocalDate localDate = commentStartDate.getValue();
-	            ProjectFormController controller = new ProjectFormController();
+	            ProjectController controller = new ProjectController();
 	            String message = controller.handleSubmitButtonClick(name, description, localDate);
 
 	            Label resultLabel = new Label(message);

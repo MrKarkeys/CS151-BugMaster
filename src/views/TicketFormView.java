@@ -1,10 +1,11 @@
 package views;
 	
 	import java.time.LocalDate;
+
 import java.util.Arrays;
 import java.util.List;
 
-import controllers.ProjectFormController;
+import controllers.ProjectController;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 	import javafx.geometry.Pos;
@@ -63,7 +64,7 @@ import models.ProjectModel;
 	        	String name = ticketName.getText();
 	            String description = ticketDescription.getText();
 	            LocalDate localDate = ticketStartDate.getValue();
-	            ProjectFormController controller = new ProjectFormController();
+	            ProjectController controller = new ProjectController();
 	            String message = controller.handleSubmitButtonClick(name, description, localDate);
 
 	            Label resultLabel = new Label(message);

@@ -1,7 +1,8 @@
 package views;
 
 import java.util.*;
-import controllers.DisplayProjectsController;
+
+import controllers.ProjectController;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,7 +30,7 @@ public class DisplayProjectsView extends Base{
         projectsTable.setHgap(50);
         projectsTable.setVgap(30);
         
-        DisplayProjectsController controller = new DisplayProjectsController();
+        ProjectController controller = new ProjectController();
         List<Project> Projects = controller.getProjects();
         for(int i = 0; i < Projects.size(); i++) {
         	VBox projectBox = new VBox();

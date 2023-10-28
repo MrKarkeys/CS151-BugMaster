@@ -1,7 +1,8 @@
 package views;
 
 import java.time.LocalDate;
-import controllers.ProjectFormController;
+
+import controllers.ProjectController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -49,7 +50,7 @@ public class ProjectFormView extends Base{
             String description = projectDescription.getText();
             LocalDate localDate = projectStartDate.getValue();
 
-            ProjectFormController controller = new ProjectFormController();
+            ProjectController controller = new ProjectController();
             String message = controller.handleSubmitButtonClick(name, description, localDate);
 
             Label resultLabel = new Label(message);
