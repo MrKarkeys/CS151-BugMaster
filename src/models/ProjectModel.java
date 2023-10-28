@@ -14,7 +14,7 @@ public class ProjectModel {
         return projectDAO.validDBConnection();
     }
     
-    public static List<Project> getAllProjects() {
+    public List<Project> getAllProjects() {
         return projectDAO.getAllProjects();
     }
 
