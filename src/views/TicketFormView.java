@@ -41,7 +41,8 @@ import models.ProjectModel;
 	        //text fields and date picker for project info
 	        
 	        //CHANGE TO LIST OF PROJECTS
-	        List<String> allProj = Arrays.asList("proj1", "proj2");
+	        ProjectController projController = new ProjectController();
+	        List<String> allProj = projController.getProjectName();
 			ComboBox<String> combo_box =  new ComboBox<String>(FXCollections.observableList(allProj));
 	        TilePane dropdown = new TilePane(combo_box);
 	        TextField ticketName = new TextField();

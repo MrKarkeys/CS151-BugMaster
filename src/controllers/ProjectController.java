@@ -2,6 +2,7 @@ package controllers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Project;
@@ -37,6 +38,15 @@ public class ProjectController {
 	
 	public List<Project> getProjects() {
         return projectModel.getAllProjects();
+	}
+	
+	public List<String> getProjectName(){
+		ArrayList<String> projNames = new ArrayList<String>();
+		List<Project> projs = projectModel.getAllProjects();
+		for(int i = 0; i < projs.size(); i++) {
+			projNames.add(projs.get(i).getName());
+		}
+		return projNames;
 	}
 	
 }
