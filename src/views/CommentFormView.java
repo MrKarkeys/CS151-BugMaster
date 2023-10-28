@@ -3,9 +3,12 @@ package views;
 import java.time.LocalDate;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import controllers.CommentController;
 import controllers.ProjectController;
+import controllers.TicketController;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -38,15 +41,19 @@ public class CommentFormView extends Base {
 
 		// text fields and date picker for project info
 		// CHANGE TO LIST OF PROJECTS
-		List<String> allProj = Arrays.asList("proj1", "proj2");
+		ProjectController projController = new ProjectController();
+		List<String> allProj = projController.getProjectName();
+		Collections.sort(allProj);
 		ComboBox<String> combo_boxP = new ComboBox<String>(FXCollections.observableList(allProj));
 		TilePane dropdownP = new TilePane(combo_boxP);
 		dropdownP.setAlignment(Pos.CENTER);
 
 		// CHANGE TO LIST OF TICKETS
-		List<String> allTic = Arrays.asList("ticket1", "ticket2");
-		ComboBox<String> combo_boxC = new ComboBox<String>(FXCollections.observableList(allTic));
-		TilePane dropdownC = new TilePane(combo_boxC);
+		TicketController tickController = new TicketController();
+		List<String> allTick = tickController.getTicketName("Example1");
+		Collections.sort(allTick);
+		ComboBox<String> combo_boxT = new ComboBox<String>(FXCollections.observableList(allTick));
+		TilePane dropdownC = new TilePane(combo_boxT);
 		dropdownC.setAlignment(Pos.CENTER);
 
 		VBox chooseProj = new VBox(20);
@@ -64,7 +71,6 @@ public class CommentFormView extends Base {
 		choosePT.setPadding(new Insets(10));
 		choosePT.setAlignment(Pos.CENTER);
 
-		TextField ticketName = new TextField();
 		TextArea cDescription = new TextArea();
 
 		// ticket info and at least 2 comments added to this ticket ex.
@@ -89,22 +95,22 @@ public class CommentFormView extends Base {
 		subTic.setOnAction(e -> {
 			centerBox.getChildren().remove(centerBox.getChildren().size() - 1); // clear bottom text on each project
 																				// addition
-			String name = ticketName.getText();
+			String ticketName = "Example1";
 			String description = cDescription.getText();
 			LocalDate localDate = commentStartDate.getValue();
-			ProjectController controller = new ProjectController();
-			String message = controller.handleSubmitButtonClick(name, description, localDate);
+			CommentController controller = new CommentController();
+			String message = controller.handleSubmitButtonClick(ticketName, description, localDate);
 
 			Label resultLabel = new Label(message);
 			centerBox.getChildren().add(resultLabel);
 
-			clear(ticketName, cDescription, commentStartDate);
+			clear(cDescription, commentStartDate);
 		});
 
 		// clear button
 		Button clearTic = new Button("Clear");
 		clearTic.setOnAction(e -> {
-			clear(ticketName, cDescription, commentStartDate);
+			clear(cDescription, commentStartDate);
 		});
 
 		// create scene
@@ -120,10 +126,9 @@ public class CommentFormView extends Base {
 	}
 
 	// clear fields
-	public void clear(TextField ticketName, TextArea ticketDescription, DatePicker ticketStartDate) {
-		ticketName.clear();
-		ticketDescription.clear();
-		ticketStartDate.setValue(java.time.LocalDate.now());
+	public void clear(TextArea commentDescription, DatePicker commentStartDate) {
+		commentDescription.clear();
+		commentStartDate.setValue(java.time.LocalDate.now());
 	}
 
 }

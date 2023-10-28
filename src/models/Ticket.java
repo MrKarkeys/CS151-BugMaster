@@ -40,4 +40,8 @@ public class Ticket {
 	public String getDate() {
 		return date;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
 }

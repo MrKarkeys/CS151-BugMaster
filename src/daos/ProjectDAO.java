@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import config.SqliteConnection;
+import models.Comment;
 import models.Project;
 import models.Ticket;
 
@@ -166,6 +167,75 @@ public class ProjectDAO {
 		try {
 	        // Create the `tickets` table
 	        String createTableQuery = "CREATE TABLE tickets (id INTEGER PRIMARY KEY, projectName TEXT , name TEXT, description TEXT, due_date DATE)";
+	        PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
+	        createTableStatement.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+    //COMMENT DAO
+    /** 
+	 * @return a list of projects
+	 */
+	public List<Comment> getAllComments() {
+		List<Comment> comments = new ArrayList<>();
+		try {
+			if (!isCommentsTableExists()) {
+				createCommentsTable();
+			}
+		    String query = "SELECT * FROM comments";
+		    Statement statement = connection.createStatement();
+	        ResultSet entries = statement.executeQuery(query);		        
+	        while (entries.next()) {
+	        	Comment comment = new Comment(entries.getInt("id"), entries.getString("TicketName"), entries.getString("description"), entries.getString("due_date"));
+	        	comments.add(comment);
+	        }
+		 } catch (SQLException e) {
+		     e.printStackTrace();
+		 } finally {
+			 closeConnection();
+	     }
+		return comments;
+	}
+	
+    public boolean insertComments(Comment comment) {
+		try {
+	    	if (!isCommentsTableExists()) {
+	    		createCommentsTable();
+	        }
+	        String query = "INSERT INTO comments (ticketName, description, due_date) VALUES (?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, comment.getticketName());
+	        statement.setString(2, comment.getDescription());
+	        statement.setString(3, comment.getDate());
+	        int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    } finally {
+        	closeConnection();
+        }
+	}
+
+	private boolean isCommentsTableExists() {
+		try {
+        	// SQL query to check for a table called "projects" in user's local database
+            String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='comments'";
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeQuery().next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+	}
+
+	
+	private void createCommentsTable() {
+		try {
+	        // Create the `tickets` table
+	        String createTableQuery = "CREATE TABLE comments (id INTEGER PRIMARY KEY, ticketName TEXT, description TEXT, due_date DATE)";
 	        PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
 	        createTableStatement.executeUpdate();
 	    } catch (SQLException e) {

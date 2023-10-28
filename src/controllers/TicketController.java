@@ -1,9 +1,10 @@
 package controllers;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import models.Ticket;
 import models.TicketModel;
 
@@ -30,5 +31,27 @@ public class TicketController {
 
 	public List<Ticket> getTickets() {
 		return ticketModel.getAllTickets();
+	}
+	
+	public List<String> getTicketName(String projName){
+		ArrayList<String> tickNames = new ArrayList<String>();
+		List<Ticket> tickets = ticketModel.getAllTickets();
+		for(int i = 0; i < tickets.size(); i++) {
+			if(tickets.get(i).getProjectName().equals(projName)) {
+				tickNames.add(tickets.get(i).getName());
+			}
+		}
+		return tickNames;
+	}
+	
+	public List<Integer> getTicketId(String projName){
+		List<Ticket> tickets = ticketModel.getAllTickets();
+		List<Integer> tickId = new ArrayList<Integer>();
+		for(int i = 0; i < tickets.size(); i++) {
+			if(tickets.get(i).getProjectName().equals(projName)) {
+				tickId.add(tickets.get(i).getId());
+			}
+		}
+		return tickId;
 	}
 }
