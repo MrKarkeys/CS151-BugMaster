@@ -96,7 +96,9 @@ public class CommentFormView extends Base {
 				centerBox.getChildren().remove(chooseTic);
 				
 				//content
-				Label cDesc = new Label("Write comments");
+				Label cDesc = new Label("Write comments:");
+				Label c1 = new Label("Comment 1");
+				Label c2 = new Label("Comment 2");
 				TextArea c1Description = new TextArea();
 				TextArea c2Description = new TextArea();
 				DatePicker commentStartDate = new DatePicker();
@@ -132,7 +134,7 @@ public class CommentFormView extends Base {
 				});
 				//ADD TO STAGE
 				VBox commentStuff = new VBox(20);
-				commentStuff.getChildren().addAll(projName, tickName, cDesc, c1Description, c2Description,commentDate, subCom, clearTic);
+				commentStuff.getChildren().addAll(projName, tickName, cDesc, c1, c1Description,c2, c2Description,commentDate, subCom, clearTic);
 				commentStuff.setPadding(new Insets(10));
 				commentStuff.setAlignment(Pos.CENTER);
 				centerBox.getChildren().addAll(commentStuff);
