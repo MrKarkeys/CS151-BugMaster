@@ -1,3 +1,5 @@
+
+
 package views;
 
 import java.util.*;
@@ -13,10 +15,10 @@ import models.Project;
 
 public class DisplayProjectsView extends Base{
 
-    public BorderPane render(Button home, Button viewProj, Button projForm, Button ticForm, Button comForm) {
+    public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
     	
     	//nav bar
-        BorderPane mainPane = createBase(home, viewProj, projForm,ticForm, comForm);
+        BorderPane mainPane = createBase(home, viewProj, projForm, viewTic, ticForm, comForm);
         viewProj.setStyle("-fx-background-color: WHEAT");
 
         // table of projects

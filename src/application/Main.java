@@ -1,7 +1,6 @@
 package application;
 	
 import javafx.application.Application;
-
 import javafx.scene.Scene; 
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -9,7 +8,8 @@ import views.HomePageView;
 import views.ProjectFormView;
 import views.TicketFormView;
 import views.CommentFormView;
-import views.DisplayProjectsView; 
+import views.DisplayProjectsView;
+import views.DisplayTicketsView; 
 
 public class Main extends Application {
 	Scene scene;
@@ -27,6 +27,9 @@ public class Main extends Application {
         
         ProjectFormView projForm = new ProjectFormView();
         Button toProjForm = new Button();
+
+        DisplayTicketsView viewTic = new DisplayTicketsView();
+        Button toViewTic = new Button ();
         
         TicketFormView ticForm = new TicketFormView();
         Button toTicForm = new Button ();
@@ -35,14 +38,15 @@ public class Main extends Application {
         Button toComForm = new Button();
         //action buttons
         
-        toHome.setOnAction(e->scene.setRoot(home.render(toHome, toViewProj, toProjForm, toTicForm, toComForm)));
-        toViewProj.setOnAction(e -> scene.setRoot(viewproj.render(toHome, toViewProj, toProjForm, toTicForm, toComForm)));
-        toProjForm.setOnAction(e -> scene.setRoot(projForm.render(toHome, toViewProj, toProjForm, toTicForm, toComForm)));
-        toTicForm.setOnAction(e->scene.setRoot(ticForm.render(toHome, toViewProj, toProjForm, toTicForm, toComForm)));
-        toComForm.setOnAction(e->scene.setRoot(comForm.render(toHome, toViewProj, toProjForm, toTicForm, toComForm)));
+        toHome.setOnAction(e->scene.setRoot(home.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
+        toViewProj.setOnAction(e -> scene.setRoot(viewproj.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
+        toProjForm.setOnAction(e -> scene.setRoot(projForm.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
+        toViewTic.setOnAction(e -> scene.setRoot(viewTic.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
+        toTicForm.setOnAction(e->scene.setRoot(ticForm.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
+        toComForm.setOnAction(e->scene.setRoot(comForm.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
 
         //set scene    
-        scene = new Scene(home.render(toHome, toViewProj, toProjForm, toTicForm, toComForm), 600, 600);
+        scene = new Scene(home.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm), 600, 600);
         s.setScene(scene);
         s.show(); 
     } 

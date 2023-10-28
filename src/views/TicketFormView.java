@@ -26,12 +26,12 @@ import models.Project;
 import models.ProjectModel;
 
 	public class TicketFormView  extends Base{
-		public BorderPane render(Button home, Button viewProj, Button projForm, Button ticForm, Button comForm)   {
+		public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm)   {
 		       
 	        StackPane centerPane = new StackPane();
 	        
 	        //nav bar
-	        BorderPane mainPane = createBase(home, viewProj, projForm,ticForm, comForm);
+	        BorderPane mainPane = createBase(home, viewProj, projForm, viewTic, ticForm, comForm);
 	        ticForm.setStyle("-fx-background-color: WHEAT");
 
 	        //labels for text fields and date picker
