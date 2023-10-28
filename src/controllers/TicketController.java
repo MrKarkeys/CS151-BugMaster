@@ -44,14 +44,15 @@ public class TicketController {
 		return tickNames;
 	}
 	
-	public List<Integer> getTicketId(String projName){
+	public String getTicketDes(String ticketName){
 		List<Ticket> tickets = ticketModel.getAllTickets();
-		List<Integer> tickId = new ArrayList<Integer>();
+		String tickDes = null;
 		for(int i = 0; i < tickets.size(); i++) {
-			if(tickets.get(i).getProjectName().equals(projName)) {
-				tickId.add(tickets.get(i).getId());
+			if(tickets.get(i).getName().equals(ticketName)) {
+				tickDes = tickets.get(i).getDescription();
+				return tickDes;
 			}
 		}
-		return tickId;
+		return tickDes;
 	}
 }
