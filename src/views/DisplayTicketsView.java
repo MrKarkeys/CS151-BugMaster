@@ -18,7 +18,7 @@ public class DisplayTicketsView extends Base{
     	
     	//nav bar
         BorderPane mainPane = createBase(home, viewProj, projForm, viewTic, ticForm, comForm);
-        viewProj.setStyle("-fx-background-color: WHEAT");
+        viewTic.setStyle("-fx-background-color: WHEAT");
 
         // table of projects
     	BorderPane centerPane = new BorderPane();

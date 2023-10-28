@@ -10,19 +10,25 @@ import controllers.CommentController;
 import controllers.ProjectController;
 import controllers.TicketController;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import models.Comment;
 
 public class CommentFormView extends Base {
 	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm,
@@ -34,93 +40,106 @@ public class CommentFormView extends Base {
 		BorderPane mainPane = createBase(home, viewProj, projForm, viewTic, ticForm, comForm);
 		comForm.setStyle("-fx-background-color: WHEAT");
 		// labels for text fields and date picker
-		Label pName = new Label("choose a project");
-		Label tName = new Label("choose a ticket");
-		Label cDesc = new Label("enter the description");
-		Label filler = new Label(":)");
+		
 
 		// text fields and date picker for project info
-		// CHANGE TO LIST OF PROJECTS
+		// CHOOSING A PROJECT
+		Label pName = new Label("choose a project");
 		ProjectController projController = new ProjectController();
+		TicketController tickController = new TicketController();
+		CommentController comController = new CommentController();
+		
+		//dropdown for proj
 		List<String> allProj = projController.getProjectName();
 		Collections.sort(allProj);
 		ComboBox<String> combo_boxP = new ComboBox<String>(FXCollections.observableList(allProj));
 		TilePane dropdownP = new TilePane(combo_boxP);
 		dropdownP.setAlignment(Pos.CENTER);
+		Button subProj = new Button("View Project's Tickets");
 
-		// CHANGE TO LIST OF TICKETS
-		TicketController tickController = new TicketController();
-		List<String> allTick = tickController.getTicketName("Example1");
-		Collections.sort(allTick);
-		ComboBox<String> combo_boxT = new ComboBox<String>(FXCollections.observableList(allTick));
-		TilePane dropdownC = new TilePane(combo_boxT);
-		dropdownC.setAlignment(Pos.CENTER);
-
+		//box styling
 		VBox chooseProj = new VBox(20);
-		chooseProj.getChildren().addAll(pName, dropdownP);
+		chooseProj.getChildren().addAll(pName, dropdownP,subProj);
 		chooseProj.setPadding(new Insets(10));
 		chooseProj.setAlignment(Pos.CENTER);
-
-		VBox chooseTic = new VBox(20);
-		chooseTic.getChildren().addAll(tName, dropdownC);
-		chooseTic.setPadding(new Insets(10));
-		chooseTic.setAlignment(Pos.CENTER);
-
-		HBox choosePT = new HBox(20);
-		choosePT.getChildren().addAll(chooseProj, chooseTic);
-		choosePT.setPadding(new Insets(10));
-		choosePT.setAlignment(Pos.CENTER);
-
-		TextArea cDescription = new TextArea();
-
-		// ticket info and at least 2 comments added to this ticket ex.
-		Label ticketInfo = new Label("Ticket Info: this ticket talks about ____ bug that affects ____");
-		Label commentex1 = new Label("Comment: made ____ changes to ____");
-		Label commentex2 = new Label("Comment: create new ____ to ____ class");
-
-		DatePicker commentStartDate = new DatePicker();
-		TextField commentDate = new TextField();
-		commentStartDate.setValue(java.time.LocalDate.now());
-		commentDate.setText(commentStartDate.getValue().toString());
-		commentDate.setEditable(false);
-
-		// box styling here
 		VBox centerBox = new VBox(20);
 		centerBox.setPadding(new Insets(10));
 		centerBox.setAlignment(Pos.CENTER);
-
-		// submit button
-		// CHANGE THIS AFTER MAKING THE COMMENT MODEL
-		Button subTic = new Button("Submit");
-		subTic.setOnAction(e -> {
-			centerBox.getChildren().remove(centerBox.getChildren().size() - 1); // clear bottom text on each project
-																				// addition
-			String ticketName = "Example1";
-			String description = cDescription.getText();
-			LocalDate localDate = commentStartDate.getValue();
-			CommentController controller = new CommentController();
-			String message = controller.handleSubmitButtonClick(ticketName, description, localDate);
-
-			Label resultLabel = new Label(message);
-			centerBox.getChildren().add(resultLabel);
-
-			clear(cDescription, commentStartDate);
-		});
-
-		// clear button
-		Button clearTic = new Button("Clear");
-		clearTic.setOnAction(e -> {
-			clear(cDescription, commentStartDate);
-		});
-
-		// create scene
-		HBox buttons = new HBox(20);
-		buttons.getChildren().addAll(subTic, clearTic);
-		buttons.setAlignment(Pos.CENTER);
-		centerBox.getChildren().addAll(choosePT, ticketInfo, commentex1, commentex2, cDescription, commentDate, buttons,
-				filler);
+		centerBox.getChildren().addAll(chooseProj);
 		centerPane.getChildren().add(centerBox);
 		mainPane.setCenter(centerPane);
+
+		//CHOOSING TICKET
+		subProj.setOnAction(a -> {
+			centerBox.getChildren().remove(chooseProj);
+			Label tName = new Label("choose a ticket");
+			
+			//dropdown for ticket
+			List<String> allTick = FXCollections.observableList(tickController.getTicketName(combo_boxP.getValue()));
+			Collections.sort(allTick);
+			ComboBox<String> combo_boxT = new ComboBox<String>((ObservableList<String>) allTick);
+			TilePane dropdownT = new TilePane(combo_boxT);
+			dropdownT.setAlignment(Pos.CENTER);
+			Button subTic = new Button("View Ticket Info");
+			Label projName = new Label("Project: "+combo_boxP.getValue());
+			
+			//ADD TO STAGE
+			VBox chooseTic = new VBox(20);
+			chooseTic.getChildren().addAll(projName,tName, dropdownT, subTic);
+			chooseTic.setPadding(new Insets(10));
+			chooseTic.setAlignment(Pos.CENTER);
+			centerBox.getChildren().addAll(chooseTic);
+			
+			
+			//ADDING THE COMMENT DESCRIPTION
+			subTic.setOnAction(o -> {
+				centerBox.getChildren().remove(chooseTic);
+				
+				//content
+				Label cDesc = new Label("Write comments");
+				TextArea c1Description = new TextArea();
+				TextArea c2Description = new TextArea();
+				DatePicker commentStartDate = new DatePicker();
+				TextField commentDate = new TextField();
+				commentStartDate.setValue(java.time.LocalDate.now());
+				commentDate.setText(commentStartDate.getValue().toString());
+				commentDate.setEditable(false);
+				Label tickName = new Label("Ticket: " + combo_boxT.getValue());
+				
+				//SENDING COMMENT TO CONTROLLER
+				Button subCom = new Button("Submit");
+				subCom.setOnAction(e -> {
+					String ticketName = combo_boxT.getValue();
+					String description1 = c1Description.getText();
+					String description2 = c2Description.getText();
+					LocalDate localDate = commentStartDate.getValue();
+					CommentController controller = new CommentController();
+					String message1 = controller.handleSubmitButtonClick(ticketName, description1, localDate);
+					String message2 = controller.handleSubmitButtonClick(ticketName, description2, localDate);
+					Label result1 = new Label(message1);
+					Label result2 = new Label(message2);
+					VBox results = new VBox(20);
+					results.getChildren().addAll(result1,result2);
+					centerBox.getChildren().add(results);
+
+					clear(c1Description,commentStartDate);
+					clear(c2Description,commentStartDate);
+				});
+				
+				Button clearTic = new Button("Clear");
+				clearTic.setOnAction(e -> {
+					clear(c1Description, commentStartDate);
+				});
+				//ADD TO STAGE
+				VBox commentStuff = new VBox(20);
+				commentStuff.getChildren().addAll(projName, tickName, cDesc, c1Description, c2Description,commentDate, subCom, clearTic);
+				commentStuff.setPadding(new Insets(10));
+				commentStuff.setAlignment(Pos.CENTER);
+				centerBox.getChildren().addAll(commentStuff);
+			});
+
+			
+		});
 
 		return mainPane;
 	}

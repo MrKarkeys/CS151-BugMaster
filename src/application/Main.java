@@ -46,7 +46,7 @@ public class Main extends Application {
         toComForm.setOnAction(e->scene.setRoot(comForm.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
 
         //set scene    
-        scene = new Scene(home.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm), 600, 600);
+        scene = new Scene(home.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm), 700, 600);
         s.setScene(scene);
         s.show(); 
     } 

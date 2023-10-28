@@ -20,15 +20,17 @@ public class CommentController {
 		String formattedDate = localDate.format(format);
 
 		boolean success = (new CommentModel()).addComment(new Comment(ticketName, description, formattedDate));
-
 		if (success) {
 			return "Comment was successfully added.";
 		} else {
 			return "Comment was not added.";
 		}
+
+		
+		
 	}
 
-	public List<Comment> getTickets() {
+	public List<Comment> getComments() {
 		return commentModel.getAllComments();
 	}
 }
