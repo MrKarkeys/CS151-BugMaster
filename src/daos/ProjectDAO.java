@@ -133,7 +133,7 @@ public class ProjectDAO {
 	    	if (!isTicketsTableExists()) {
 	    		createTicketsTable();
 	        }
-	        String query = "INSERT INTO tickets (projectId, name, description, due_date) VALUES (?, ?, ?, ?)";
+	        String query = "INSERT INTO tickets (projectName, name, description, due_date) VALUES (?, ?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, ticket.getProjectName());
 	        statement.setString(2, ticket.getName());
@@ -165,7 +165,7 @@ public class ProjectDAO {
 	private void createTicketsTable() {
 		try {
 	        // Create the `tickets` table
-	        String createTableQuery = "CREATE TABLE tickets (id INTEGER PRIMARY KEY, projectId INTEGER, name TEXT, description TEXT, due_date DATE)";
+	        String createTableQuery = "CREATE TABLE tickets (id INTEGER PRIMARY KEY, projectName TEXT , name TEXT, description TEXT, due_date DATE)";
 	        PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
 	        createTableStatement.executeUpdate();
 	    } catch (SQLException e) {

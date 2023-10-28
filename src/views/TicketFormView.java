@@ -3,9 +3,11 @@ package views;
 	import java.time.LocalDate;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import controllers.ProjectController;
+import controllers.TicketController;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 	import javafx.geometry.Pos;
@@ -43,6 +45,7 @@ import models.ProjectModel;
 	        //CHANGE TO LIST OF PROJECTS
 	        ProjectController projController = new ProjectController();
 	        List<String> allProj = projController.getProjectName();
+	        Collections.sort(allProj);
 			ComboBox<String> combo_box =  new ComboBox<String>(FXCollections.observableList(allProj));
 	        TilePane dropdown = new TilePane(combo_box);
 	        TextField ticketName = new TextField();
@@ -62,11 +65,12 @@ import models.ProjectModel;
 	        Button subTic = new Button("Submit");
 	        subTic.setOnAction(e -> {
 	        	centerBox.getChildren().remove(centerBox.getChildren().size()-1); // clear bottom text on each project addition
+	        	String projectName = combo_box.getValue();
 	        	String name = ticketName.getText();
 	            String description = ticketDescription.getText();
 	            LocalDate localDate = ticketStartDate.getValue();
-	            ProjectController controller = new ProjectController();
-	            String message = controller.handleSubmitButtonClick(name, description, localDate);
+	            TicketController controller = new TicketController();
+	            String message = controller.handleSubmitButtonClick(projectName, name, description, localDate);
 
 	            Label resultLabel = new Label(message);
 	            centerBox.getChildren().add(resultLabel);
