@@ -47,7 +47,6 @@ public class CommentFormView extends Base {
 		Label pName = new Label("choose a project");
 		ProjectController projController = new ProjectController();
 		TicketController tickController = new TicketController();
-		CommentController comController = new CommentController();
 		
 		//dropdown for proj
 		List<String> allProj = projController.getProjectName();
@@ -96,6 +95,9 @@ public class CommentFormView extends Base {
 				centerBox.getChildren().remove(chooseTic);
 				
 				//content
+				TicketController ticCon = new TicketController();
+				Label ticDescrip = new Label("Ticket Description: "+ticCon.getTicketDes(combo_boxT.getValue()));
+				Label exampleComments = new Label("Previous Comment: this is a previous comment");
 				Label cDesc = new Label("Write comments:");
 				Label c1 = new Label("Comment 1");
 				Label c2 = new Label("Comment 2");
@@ -134,7 +136,7 @@ public class CommentFormView extends Base {
 				});
 				//ADD TO STAGE
 				VBox commentStuff = new VBox(20);
-				commentStuff.getChildren().addAll(projName, tickName, cDesc, c1, c1Description,c2, c2Description,commentDate, subCom, clearTic);
+				commentStuff.getChildren().addAll(projName, tickName, ticDescrip,exampleComments,cDesc, c1, c1Description,c2, c2Description,commentDate, subCom, clearTic);
 				commentStuff.setPadding(new Insets(10));
 				commentStuff.setAlignment(Pos.CENTER);
 				centerBox.getChildren().addAll(commentStuff);
