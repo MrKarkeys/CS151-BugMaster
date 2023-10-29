@@ -2,7 +2,7 @@ package views;
 
 import java.time.LocalDate;
 
-import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -13,22 +13,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import models.Comment;
 
 public class CommentFormView extends Base {
 	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm,
