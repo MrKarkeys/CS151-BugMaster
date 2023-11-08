@@ -25,8 +25,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 public class CommentFormView extends Base {
-	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm,
-			Button comForm) {
+	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
 
 		StackPane centerPane = new StackPane();
 
@@ -42,7 +41,7 @@ public class CommentFormView extends Base {
 		ProjectController projController = new ProjectController();
 		TicketController tickController = new TicketController();
 		
-		//dropdown for proj
+		// dropdown for proj
 		List<String> allProj = projController.getProjectName();
 		Collections.sort(allProj);
 		ComboBox<String> combo_boxP = new ComboBox<String>(FXCollections.observableList(allProj));

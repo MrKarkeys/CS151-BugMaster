@@ -17,6 +17,10 @@ public class ProjectModel {
     public List<Project> getAllProjects() {
         return projectDAO.getAllProjects();
     }
+    
+    public List<Project> getAllProjects(String substring) {
+    	return projectDAO.getAllProjects(substring);
+    }
 
     public boolean addProject(Project project) {
         return projectDAO.insertProject(project);

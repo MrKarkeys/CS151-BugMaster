@@ -53,6 +53,32 @@ public class ProjectDAO {
 	     }
 		return projects;
 	}
+	
+	/** 
+	 * @return a list of projects based on a user input (substring)
+	 */
+	public List<Project> getAllProjects(String substring) {
+		List<Project> projects = new ArrayList<>();
+		try {
+			if (!isProjectsTableExists()) {
+				createProjectsTable();
+			}
+		    String query = "SELECT * FROM projects WHERE name LIKE ?";
+		    PreparedStatement preparedStatement = connection.prepareStatement(query); // used type PreparedStatement due to dynamic substring
+	        preparedStatement.setString(1, "%" + substring + "%");
+	        ResultSet entries = preparedStatement.executeQuery();		        
+	        while (entries.next()) {
+	        	Project project = new Project(entries.getString("name"), entries.getString("description"), entries.getString("due_date"));
+	        	projects.add(project);
+	        }
+		 } catch (SQLException e) {
+		     e.printStackTrace();
+		 } finally {
+			 closeConnection();
+	     }
+		return projects;
+	}
+	
 
 	/**
 	 * @param project is the project that you want to save

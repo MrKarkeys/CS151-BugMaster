@@ -40,6 +40,10 @@ public class ProjectController {
         return projectModel.getAllProjects();
 	}
 	
+	public List<Project> getProjects(String substring) {
+		return projectModel.getAllProjects(substring);
+	}
+	
 	public List<String> getProjectName(){
 		ArrayList<String> projNames = new ArrayList<String>();
 		List<Project> projs = projectModel.getAllProjects();
