@@ -290,14 +290,14 @@ public class ProjectDAO {
 	        createTableStatement.executeUpdate();
 	        
 	        String[] insertQueries = {
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First First Ticket', 'first really cool comment', '12/31/2025')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First First Ticket', 'Second really cool comment', '12/31/2025')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First Second Ticket', 'first really cool comment', '12/31/2025')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First Second Ticket', 'Second really cool comment', '12/31/2025')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second First Ticket', 'first really cool comment', '12/31/2025')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second First Ticket', 'Second really cool comment', '12/31/2025')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second Second Ticket', 'first really cool comment', '12/31/2025')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second Second Ticket', 'Second really cool comment', '12/31/2025')"
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First First Ticket', 'first really cool comment', '12/31/2025 15:11:20')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First First Ticket', 'Second really cool comment', '12/31/2025 15:11:30')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First Second Ticket', 'first really cool comment', '12/31/2025 15:11:40')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First Second Ticket', 'Second really cool comment', '12/31/2025 15:11:50')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second First Ticket', 'first really cool comment', '12/31/2025 15:12:20')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second First Ticket', 'Second really cool comment', '12/31/2025 15:12:30')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second Second Ticket', 'first really cool comment', '12/31/2025 15:12:40')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second Second Ticket', 'Second really cool comment', '12/31/2025 15:15:50')"
 	        };
 
 	        for (String insertQuery : insertQueries) {

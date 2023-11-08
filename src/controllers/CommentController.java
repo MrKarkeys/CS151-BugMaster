@@ -1,6 +1,8 @@
 package controllers;
 
+import java.security.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -14,9 +16,9 @@ public class CommentController {
 		commentModel = new CommentModel();        
     }
 
-	public String handleSubmitButtonClick(String ticketName, String description, LocalDate localDate) {
+	public String handleSubmitButtonClick(String ticketName, String description, LocalDateTime localDate) {
 		// format date in mm/dd/yyyy format
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
 		String formattedDate = localDate.format(format);
 
 		boolean success = (new CommentModel()).addComment(new Comment(ticketName, description, formattedDate));

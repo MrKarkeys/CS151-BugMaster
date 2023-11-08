@@ -1,8 +1,7 @@
 package views;
 
-import java.time.LocalDate;
-
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -96,10 +94,10 @@ public class CommentFormView extends Base {
 				Label c2 = new Label("Comment 2");
 				TextArea c1Description = new TextArea();
 				TextArea c2Description = new TextArea();
-				DatePicker commentStartDate = new DatePicker();
-				TextField commentDate = new TextField();
-				commentStartDate.setValue(java.time.LocalDate.now());
-				commentDate.setText(commentStartDate.getValue().toString());
+				
+			    LocalDateTime DateTimeNow = LocalDateTime.now();
+			    TextField commentDate = new TextField();
+				commentDate.setText(DateTimeNow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 				commentDate.setEditable(false);
 				Label tickName = new Label("Ticket: " + combo_boxT.getValue());
 				
@@ -109,7 +107,7 @@ public class CommentFormView extends Base {
 					String ticketName = combo_boxT.getValue();
 					String description1 = c1Description.getText();
 					String description2 = c2Description.getText();
-					LocalDate localDate = commentStartDate.getValue();
+					LocalDateTime localDate = DateTimeNow;
 					CommentController controller = new CommentController();
 					String message1 = controller.handleSubmitButtonClick(ticketName, description1, localDate);
 					String message2 = controller.handleSubmitButtonClick(ticketName, description2, localDate);
@@ -119,13 +117,13 @@ public class CommentFormView extends Base {
 					results.getChildren().addAll(result1,result2);
 					centerBox.getChildren().add(results);
 
-					clear(c1Description,commentStartDate);
-					clear(c2Description,commentStartDate);
+					clear(c1Description,DateTimeNow);
+					clear(c2Description,DateTimeNow);
 				});
 				
 				Button clearTic = new Button("Clear");
 				clearTic.setOnAction(e -> {
-					clear(c1Description, commentStartDate);
+					clear(c1Description,DateTimeNow);
 				});
 				//ADD TO STAGE
 				VBox commentStuff = new VBox(20);
@@ -142,9 +140,9 @@ public class CommentFormView extends Base {
 	}
 
 	// clear fields
-	public void clear(TextArea commentDescription, DatePicker commentStartDate) {
+	public void clear(TextArea commentDescription, LocalDateTime DateTimeNow) {
 		commentDescription.clear();
-		commentStartDate.setValue(java.time.LocalDate.now());
+		DateTimeNow = LocalDateTime.now();
 	}
 
 }
