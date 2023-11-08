@@ -129,8 +129,7 @@ public class ProjectDAO {
 	        // Insert the projects
 	        String[] insertQueries = {
 	                "INSERT INTO projects (name, description, due_date) VALUES ('First', 'Really cool project', '12/31/2025')",
-	                "INSERT INTO projects (name, description, due_date) VALUES ('Second', 'Kinda cool project', '12/31/2025')",
-	                "INSERT INTO projects (name, description, due_date) VALUES ('Third', 'Not cool project', '12/31/2025')",
+	                "INSERT INTO projects (name, description, due_date) VALUES ('Second', 'Kinda cool project', '12/31/2025')"
 	        };
 
 	        for (String insertQuery : insertQueries) {
@@ -207,6 +206,19 @@ public class ProjectDAO {
 	        String createTableQuery = "CREATE TABLE tickets (id INTEGER PRIMARY KEY, projectName TEXT , name TEXT, description TEXT, due_date DATE)";
 	        PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
 	        createTableStatement.executeUpdate();
+	        
+	        String[] insertQueries = {
+	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('First', 'First First Ticket', 'first really cool ticket', '12/31/2025')",
+	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('First', 'First Second Ticket', 'Second really cool ticket', '12/31/2025')",
+	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('Second', 'Second First Ticket', 'first really cool ticket', '12/31/2025')",
+	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('Second', 'Second Second Ticket', 'Second really cool ticket', '12/31/2025')"
+	        };
+
+	        for (String insertQuery : insertQueries) {
+	            PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+	            insertStatement.executeUpdate();
+	        }
+	        
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
@@ -276,6 +288,24 @@ public class ProjectDAO {
 	        String createTableQuery = "CREATE TABLE comments (id INTEGER PRIMARY KEY, ticketName TEXT, description TEXT, due_date DATE)";
 	        PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
 	        createTableStatement.executeUpdate();
+	        
+	        String[] insertQueries = {
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First First Ticket', 'first really cool comment', '12/31/2025')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First First Ticket', 'Second really cool comment', '12/31/2025')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First Second Ticket', 'first really cool comment', '12/31/2025')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First Second Ticket', 'Second really cool comment', '12/31/2025')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second First Ticket', 'first really cool comment', '12/31/2025')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second First Ticket', 'Second really cool comment', '12/31/2025')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second Second Ticket', 'first really cool comment', '12/31/2025')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second Second Ticket', 'Second really cool comment', '12/31/2025')"
+	        };
+
+	        for (String insertQuery : insertQueries) {
+	            PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+	            insertStatement.executeUpdate();
+	        }
+	        
+	        
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
