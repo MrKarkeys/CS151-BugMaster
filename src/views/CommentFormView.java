@@ -90,10 +90,7 @@ public class CommentFormView extends Base {
 				Label ticDescrip = new Label("Ticket Description: "+ticCon.getTicketDes(combo_boxT.getValue()));
 				Label exampleComments = new Label("Previous Comment: this is a previous comment");
 				Label cDesc = new Label("Write comments:");
-				Label c1 = new Label("Comment 1");
-				Label c2 = new Label("Comment 2");
 				TextArea c1Description = new TextArea();
-				TextArea c2Description = new TextArea();
 				
 			    LocalDateTime DateTimeNow = LocalDateTime.now();
 			    TextField commentDate = new TextField();
@@ -106,19 +103,15 @@ public class CommentFormView extends Base {
 				subCom.setOnAction(e -> {
 					String ticketName = combo_boxT.getValue();
 					String description1 = c1Description.getText();
-					String description2 = c2Description.getText();
 					LocalDateTime localDate = DateTimeNow;
 					CommentController controller = new CommentController();
 					String message1 = controller.handleSubmitButtonClick(ticketName, description1, localDate);
-					String message2 = controller.handleSubmitButtonClick(ticketName, description2, localDate);
 					Label result1 = new Label(message1);
-					Label result2 = new Label(message2);
 					VBox results = new VBox(20);
-					results.getChildren().addAll(result1,result2);
+					results.getChildren().addAll(result1);
 					centerBox.getChildren().add(results);
 
 					clear(c1Description,DateTimeNow);
-					clear(c2Description,DateTimeNow);
 				});
 				
 				Button clearTic = new Button("Clear");
@@ -127,7 +120,7 @@ public class CommentFormView extends Base {
 				});
 				//ADD TO STAGE
 				VBox commentStuff = new VBox(20);
-				commentStuff.getChildren().addAll(projName, tickName, ticDescrip,exampleComments,cDesc, c1, c1Description,c2, c2Description,commentDate, subCom, clearTic);
+				commentStuff.getChildren().addAll(projName, tickName, ticDescrip,exampleComments,cDesc, c1Description,commentDate, subCom, clearTic);
 				commentStuff.setPadding(new Insets(10));
 				commentStuff.setAlignment(Pos.CENTER);
 				centerBox.getChildren().addAll(commentStuff);
