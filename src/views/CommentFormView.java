@@ -133,7 +133,7 @@ public class CommentFormView extends Base {
 				
 				//ADD TO STAGE
 				VBox commentStuff = new VBox(20);
-				commentStuff.getChildren().addAll(projName, tickName, ticDescrip,exampleComments,cDesc, c1Description, commentDate, addNewCommentBtn);
+				commentStuff.getChildren().addAll(projName, tickName, ticDescrip,exampleComments,cDesc, c1Description, commentDate, addNewCommentBtn, submitClearSection);
 				commentStuff.setPadding(new Insets(10));
 				commentStuff.setAlignment(Pos.CENTER);
 				centerBox.getChildren().addAll(commentStuff);
