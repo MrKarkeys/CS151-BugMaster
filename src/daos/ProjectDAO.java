@@ -238,10 +238,10 @@ public class ProjectDAO {
 	        createTableStatement.executeUpdate();
 	        
 	        String[] insertQueries = {
-	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('First', 'First First Ticket', 'first really cool ticket', '12/31/2025')",
-	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('First', 'First Second Ticket', 'Second really cool ticket', '12/31/2025')",
-	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('Second', 'Second First Ticket', 'first really cool ticket', '12/31/2025')",
-	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('Second', 'Second Second Ticket', 'Second really cool ticket', '12/31/2025')"
+	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('First', 'Number1', 'first really cool ticket', '12/31/2025')",
+	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('First', 'Number2', 'Second really cool ticket', '12/31/2025')",
+	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('Second', 'Number3', 'first really cool ticket', '12/31/2025')",
+	                "INSERT INTO tickets (projectName, name, description, due_date) VALUES ('Second', 'Number4', 'Second really cool ticket', '12/31/2025')"
 	        };
 
 	        for (String insertQuery : insertQueries) {
@@ -320,14 +320,14 @@ public class ProjectDAO {
 	        createTableStatement.executeUpdate();
 	        
 	        String[] insertQueries = {
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First First Ticket', 'first really cool comment', '12/31/2025 15:11:20')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First First Ticket', 'Second really cool comment', '12/31/2025 15:11:30')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First Second Ticket', 'first really cool comment', '12/31/2025 15:11:40')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('First Second Ticket', 'Second really cool comment', '12/31/2025 15:11:50')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second First Ticket', 'first really cool comment', '12/31/2025 15:12:20')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second First Ticket', 'Second really cool comment', '12/31/2025 15:12:30')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second Second Ticket', 'first really cool comment', '12/31/2025 15:12:40')",
-	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Second Second Ticket', 'Second really cool comment', '12/31/2025 15:15:50')"
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Number1', 'first really cool comment', '12/31/2025 15:11:20')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Number1', 'Second really cool comment', '12/31/2025 15:11:30')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Number2', 'first really cool comment', '12/31/2025 15:11:40')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Number2', 'Second really cool comment', '12/31/2025 15:11:50')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Number3', 'first really cool comment', '12/31/2025 15:12:20')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Number3', 'Second really cool comment', '12/31/2025 15:12:30')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Number4', 'first really cool comment', '12/31/2025 15:12:40')",
+	                "INSERT INTO comments (ticketName, description, due_date) VALUES ('Number4', 'Second really cool comment', '12/31/2025 15:15:50')"
 	        };
 
 	        for (String insertQuery : insertQueries) {
