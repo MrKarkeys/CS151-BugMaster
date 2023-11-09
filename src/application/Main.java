@@ -37,13 +37,13 @@ public class Main extends Application {
         CommentFormView comForm = new CommentFormView();
         Button toComForm = new Button();
 
-        //action buttons
+        // action buttons
         toHome.setOnAction(e->scene.setRoot(home.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
         toViewProj.setOnAction(e -> scene.setRoot(viewProj.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
         toProjForm.setOnAction(e -> scene.setRoot(projForm.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
         toViewTic.setOnAction(e -> scene.setRoot(viewTic.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
         toTicForm.setOnAction(e->scene.setRoot(ticForm.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
-        toComForm.setOnAction(e->scene.setRoot(comForm.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
+        toComForm.setOnAction(e->scene.setRoot(comForm.render(scene, toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm)));
 
         //set scene    
         scene = new Scene(home.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm), 700, 600);

@@ -12,19 +12,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 public class CommentFormView extends Base {
-	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
-
+	public BorderPane render(Scene scene, Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
 		StackPane centerPane = new StackPane();
 
 		// nav bar
@@ -89,7 +90,7 @@ public class CommentFormView extends Base {
 				TicketController ticCon = new TicketController();
 				Label ticDescrip = new Label("Ticket Description: "+ticCon.getTicketDes(combo_boxT.getValue()));
 				Label exampleComments = new Label("Previous Comment: this is a previous comment");
-				Label cDesc = new Label("Write comments:");
+				Label cDesc = new Label("Write comment:");
 				TextArea c1Description = new TextArea();
 				
 			    LocalDateTime DateTimeNow = LocalDateTime.now();
@@ -113,14 +114,26 @@ public class CommentFormView extends Base {
 
 					clear(c1Description,DateTimeNow);
 				});
+
 				
 				Button clearTic = new Button("Clear");
 				clearTic.setOnAction(e -> {
 					clear(c1Description,DateTimeNow);
 				});
+				
+				// add both buttons to it's own section
+				HBox submitClearSection = new HBox();
+				submitClearSection.setSpacing(5);
+				submitClearSection.setAlignment(Pos.CENTER);
+				submitClearSection.getChildren().addAll(subCom, clearTic);
+				
+				Button addNewCommentBtn = new Button("add a new comment");
+				CommentFormView comFormView = new CommentFormView();
+				addNewCommentBtn.setOnAction(e->scene.setRoot(comFormView.render(scene, home, viewProj, projForm, viewTic, ticForm, comForm)));
+				
 				//ADD TO STAGE
 				VBox commentStuff = new VBox(20);
-				commentStuff.getChildren().addAll(projName, tickName, ticDescrip,exampleComments,cDesc, c1Description,commentDate, subCom, clearTic);
+				commentStuff.getChildren().addAll(projName, tickName, ticDescrip,exampleComments,cDesc, c1Description, commentDate, addNewCommentBtn);
 				commentStuff.setPadding(new Insets(10));
 				commentStuff.setAlignment(Pos.CENTER);
 				centerBox.getChildren().addAll(commentStuff);
