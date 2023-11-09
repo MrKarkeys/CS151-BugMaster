@@ -166,6 +166,36 @@ public class ProjectDAO {
 		return tickets;
 	}
 	
+	/** 
+	 * @return a list of projects
+	 */
+	public List<Ticket> getAllTickets(String substring) {
+		List<Ticket> tickets = new ArrayList<>();
+		try {
+			if (!isTicketsTableExists()) {
+				createTicketsTable();
+			}
+			// get tickets based on ticket title
+		    String query = "SELECT * FROM tickets WHERE name LIKE ? OR projectName LIKE ?";
+		    PreparedStatement preparedStatement = connection.prepareStatement(query);
+		    preparedStatement.setString(1, "%" + substring + "%");
+		    preparedStatement.setString(2, "%" + substring + "%");
+		    ResultSet entries = preparedStatement.executeQuery();
+	        while (entries.next()) {
+	        	Ticket ticket = new Ticket(entries.getInt("id"), entries.getString("projectName"), entries.getString("name"), entries.getString("description"), entries.getString("due_date"));
+	        	tickets.add(ticket);
+	        }
+	        
+	        // get tickets based on project title
+		 } catch (SQLException e) {
+		     e.printStackTrace();
+		 } finally {
+			 closeConnection();
+	     }
+		return tickets;
+	}
+	
+	
     public boolean insertTicket(Ticket ticket) {
 		try {
 	    	if (!isTicketsTableExists()) {

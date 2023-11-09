@@ -17,6 +17,10 @@ public class TicketModel {
     public List<Ticket> getAllTickets() {
         return projectDAO.getAllTickets();
     }
+    
+    public List<Ticket> getAllTickets(String substring) {
+    	return projectDAO.getAllTickets(substring);
+    }
 
     public boolean addTicket(Ticket ticket) {
         return projectDAO.insertTicket(ticket);

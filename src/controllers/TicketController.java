@@ -33,6 +33,10 @@ public class TicketController {
 		return ticketModel.getAllTickets();
 	}
 	
+	public List<Ticket> getTickets(String substring) {
+		return ticketModel.getAllTickets(substring);
+	}
+	
 	public List<String> getTicketName(String projName){
 		ArrayList<String> tickNames = new ArrayList<String>();
 		List<Ticket> tickets = ticketModel.getAllTickets();
