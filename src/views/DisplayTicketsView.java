@@ -3,8 +3,6 @@
 package views;
 
 import java.util.*;
-
-import controllers.ProjectController;
 import controllers.TicketController;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -14,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import models.Project;
 import models.Ticket;
 
 public class DisplayTicketsView extends Base{

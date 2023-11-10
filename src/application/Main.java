@@ -1,5 +1,6 @@
 package application;
 	
+import daos.ProjectDAO;
 import javafx.application.Application;
 import javafx.scene.Scene; 
 import javafx.scene.control.*;
@@ -49,10 +50,20 @@ public class Main extends Application {
         scene = new Scene(home.render(toHome, toViewProj, toProjForm, toViewTic, toTicForm, toComForm), 700, 600);
         s.setScene(scene);
         s.show(); 
+        
+        //Creating the tables when you press run
+        ProjectDAO createtables = new ProjectDAO();
+        if (!createtables.isProjectsTableExists()) {
+        	createtables.createProjectsTable();
+        }
+        if (!createtables.isTicketsTableExists()) {
+        	createtables.createTicketsTable();
+        }
+        if (!createtables.isCommentsTableExists()) {
+        	createtables.createCommentsTable();
+        }
     } 
 
-
-	
 	public static void main(String[] args) {
 		launch(args);
 	}

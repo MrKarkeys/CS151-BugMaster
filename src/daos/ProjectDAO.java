@@ -107,7 +107,7 @@ public class ProjectDAO {
 	/**
 	 * @return a boolean to show if table called "projects" exists in database
 	 */
-	private boolean isProjectsTableExists() {
+	public boolean isProjectsTableExists() {
         try {
         	// SQL query to check for a table called "projects" in user's local database
             String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='projects'";
@@ -119,7 +119,7 @@ public class ProjectDAO {
         }
     }
 
-	private void createProjectsTable() {
+	public void createProjectsTable() {
 	    try {
 	        // Create the `projects` table
 	        String createTableQuery = "CREATE TABLE projects (id INTEGER PRIMARY KEY, name TEXT, description TEXT, due_date DATE)";
@@ -217,7 +217,7 @@ public class ProjectDAO {
         }
 	}
 
-	private boolean isTicketsTableExists() {
+	public boolean isTicketsTableExists() {
 		try {
         	// SQL query to check for a table called "projects" in user's local database
             String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='tickets'";
@@ -230,7 +230,7 @@ public class ProjectDAO {
 	}
 
 	
-	private void createTicketsTable() {
+	public void createTicketsTable() {
 		try {
 	        // Create the `tickets` table
 	        String createTableQuery = "CREATE TABLE tickets (id INTEGER PRIMARY KEY, projectName TEXT , name TEXT, description TEXT, due_date DATE)";
@@ -299,7 +299,7 @@ public class ProjectDAO {
         }
 	}
 
-	private boolean isCommentsTableExists() {
+	public boolean isCommentsTableExists() {
 		try {
         	// SQL query to check for a table called "projects" in user's local database
             String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='comments'";
@@ -312,7 +312,7 @@ public class ProjectDAO {
 	}
 
 	
-	private void createCommentsTable() {
+	public void createCommentsTable() {
 		try {
 	        // Create the `tickets` table
 	        String createTableQuery = "CREATE TABLE comments (id INTEGER PRIMARY KEY, ticketName TEXT, description TEXT, due_date DATE)";
