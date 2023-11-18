@@ -1,10 +1,10 @@
 package application;
 	
-import daos.ProjectDAO;
 import javafx.application.Application;
 import javafx.scene.Scene; 
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import models.ProjectModel;
 import views.HomePageView;
 import views.ProjectFormView;
 import views.TicketFormView;
@@ -52,16 +52,8 @@ public class Main extends Application {
         s.show(); 
         
         //Creating the tables when you press run
-        ProjectDAO createtables = new ProjectDAO();
-        if (!createtables.isProjectsTableExists()) {
-        	createtables.createProjectsTable();
-        }
-        if (!createtables.isTicketsTableExists()) {
-        	createtables.createTicketsTable();
-        }
-        if (!createtables.isCommentsTableExists()) {
-        	createtables.createCommentsTable();
-        }
+        ProjectModel tables = new ProjectModel();
+        tables.createtables();
     } 
 
 	public static void main(String[] args) {

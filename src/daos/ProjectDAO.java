@@ -29,6 +29,20 @@ public class ProjectDAO {
 			return false;
 		}
 	}
+	
+	//Creating all the tables
+	public void createAllTables() {
+		if (!isProjectsTableExists()) {
+        	createProjectsTable();
+        }
+        if (!isTicketsTableExists()) {
+        	createTicketsTable();
+        }
+        if (!isCommentsTableExists()) {
+        	createCommentsTable();
+        }
+        closeConnection();
+	}
 
 	/** 
 	 * @return a list of projects
@@ -414,7 +428,7 @@ public class ProjectDAO {
 		return connection;
     }
     
-    private void closeConnection() {
+    public void closeConnection() {
     	if (connection != null) { // only try to close an existing connection
             try {
                 connection.close();
