@@ -119,6 +119,31 @@ public class ProjectDAO {
 	}
 	
 	/**
+	 * @param originalName is the name of the project prior to editing, project is the project that you want to edit
+	 * @return a boolean to show if it was successful
+	 */
+	public boolean editProject(String originalName, Project project) {
+	    try {
+	    	if (!isProjectsTableExists()) {
+	    		createProjectsTable();
+	        }
+	    	String query = "UPDATE projects SET name = ?, description = ?, due_date = ? WHERE name = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, project.getName());
+	        statement.setString(2, project.getDescription());
+	        statement.setString(3, project.getDate());
+	        statement.setString(4, originalName);
+	        int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    } finally {
+        	closeConnection();
+        }
+	}
+	
+	/**
 	 * @param project is the project that you want to delete
 	 * @return a boolean to show if it was successful
 	 */
@@ -166,11 +191,10 @@ public class ProjectDAO {
 	    }
 	}
 	
-	
 	/**
 	 * @return a boolean to show if table called "projects" exists in database
 	 */
-	public boolean isProjectsTableExists() {
+	private boolean isProjectsTableExists() {
         try {
         	// SQL query to check for a table called "projects" in user's local database
             String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='projects'";
@@ -182,7 +206,7 @@ public class ProjectDAO {
         }
     }
 
-	public void createProjectsTable() {
+	private void createProjectsTable() {
 	    try {
 	        // Create the `projects` table
 	        String createTableQuery = "CREATE TABLE projects (id INTEGER PRIMARY KEY, name TEXT, description TEXT, due_date DATE)";
@@ -282,7 +306,7 @@ public class ProjectDAO {
         }
 	}
 
-	public boolean isTicketsTableExists() {
+    private boolean isTicketsTableExists() {
 		try {
         	// SQL query to check for a table called "projects" in user's local database
             String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='tickets'";
@@ -295,7 +319,7 @@ public class ProjectDAO {
 	}
 
 	
-	public void createTicketsTable() {
+	private void createTicketsTable() {
 		try {
 	        // Create the `tickets` table
 	        String createTableQuery = "CREATE TABLE tickets (id INTEGER PRIMARY KEY, projectName TEXT , name TEXT, description TEXT, due_date DATE)";
@@ -368,7 +392,7 @@ public class ProjectDAO {
         }
 	}
 
-	public boolean isCommentsTableExists() {
+    private boolean isCommentsTableExists() {
 		try {
         	// SQL query to check for a table called "projects" in user's local database
             String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='comments'";
@@ -381,7 +405,7 @@ public class ProjectDAO {
 	}
 
 	
-	public void createCommentsTable() {
+	private void createCommentsTable() {
 		try {
 	        // Create the `tickets` table
 	        String createTableQuery = "CREATE TABLE comments (id INTEGER PRIMARY KEY, ticketName TEXT, description TEXT, due_date DATE)";
@@ -428,7 +452,7 @@ public class ProjectDAO {
 		return connection;
     }
     
-    public void closeConnection() {
+    private void closeConnection() {
     	if (connection != null) { // only try to close an existing connection
             try {
                 connection.close();

@@ -150,5 +150,4 @@ public class CommentFormView extends Base {
 		commentDescription.clear();
 		DateTimeNow = LocalDateTime.now();
 	}
-
 }

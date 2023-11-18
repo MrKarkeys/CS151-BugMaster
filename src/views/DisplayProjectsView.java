@@ -5,6 +5,7 @@ import java.util.*;
 
 import controllers.ProjectController;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,7 +17,7 @@ import models.Project;
 
 public class DisplayProjectsView extends Base {
 
-	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
+	public BorderPane render(Scene scene, Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
 		final int MAX_COMPONENTS = 4;
 		
 		// nav bar
@@ -46,12 +47,13 @@ public class DisplayProjectsView extends Base {
         Button toSearchProj = new Button("search projects");
         searchSection.getChildren().addAll(substringInput, toSearchProj);
 
-		// delete section
-		HBox deleteSection = new HBox();
-		deleteSection.setSpacing(5);
-		deleteSection.setAlignment(Pos.CENTER);
+		// edit + delete section
+		HBox editAndDeleteSection = new HBox();
+		editAndDeleteSection.setSpacing(5);
+		editAndDeleteSection.setAlignment(Pos.CENTER);
+		Button editButton = new Button("edit single project");
         Button deleteButton = new Button("delete single project");
-        deleteSection.getChildren().addAll(deleteButton);
+        editAndDeleteSection.getChildren().addAll(editButton, deleteButton);
         
         toSearchProj.setOnAction(e -> {
         	ProjectController controller = new ProjectController();
@@ -69,9 +71,31 @@ public class DisplayProjectsView extends Base {
             }
         });
         
+        editButton.setOnAction(e -> {
+        	ProjectController controller = new ProjectController();
+        	List<Project> projectToEdit = controller.getProjects(substringInput.getText());
+        	Label editStatus;
+        	
+        	// remove bottom text in preparation for deletion message (if necessary)
+        	if (projectsViewHeader.getChildren().size() >= MAX_COMPONENTS) {
+        		projectsViewHeader.getChildren().remove(MAX_COMPONENTS-1);
+        	}
+            
+            // delete listed projects (it should be one project)
+        	if (projectToEdit.size() != 1) {
+        		editStatus = new Label("Edit failed. Narrow search to one project.");
+        		projectsViewHeader.getChildren().add(editStatus);
+        	} else {
+        		// redirect to editing form view/page
+        		EditFormView editFormView = new EditFormView();
+				scene.setRoot(editFormView.render(home, viewProj, projForm, viewTic, ticForm, comForm, projectToEdit.get(0)));
+        	}
+        });
+        
         deleteButton.setOnAction(e -> {
         	ProjectController controller = new ProjectController();
         	List<Project> projectToDelete = controller.getProjects(substringInput.getText());
+        	Label deleteStatus;
         	
         	// remove bottom text in preparation for deletion message (if necessary)
         	if (projectsViewHeader.getChildren().size() >= MAX_COMPONENTS) {
@@ -80,15 +104,15 @@ public class DisplayProjectsView extends Base {
             
             // delete listed projects (it should be one project)
         	if (projectToDelete.size() != 1) {
-        		Label deleteStatus = new Label("Deletion failed. Narrow search to one project.");
+        		deleteStatus = new Label("Deletion failed. Narrow search to one project.");
         		projectsViewHeader.getChildren().add(deleteStatus);
         	} else {
         		boolean deleted = controller.handleDeleteButton(projectToDelete.get(0));
         		if (!deleted) {
-        			Label deleteStatus = new Label("Failed to delete project.");
+        			deleteStatus = new Label("Failed to delete project.");
         			projectsViewHeader.getChildren().add(deleteStatus);
         		} else {
-        			Label deleteStatus = new Label("Successful deletion of project + it's tickets and comments.");
+        			deleteStatus = new Label("Successful deletion of project + it's tickets and comments.");
         			projectsViewHeader.getChildren().add(deleteStatus);
         			
         			// clear table to give visual representation of deletion
@@ -99,7 +123,7 @@ public class DisplayProjectsView extends Base {
         });
         
         // add search, delete section to (top of) page
-		projectsViewHeader.getChildren().addAll(label, searchSection, deleteSection);
+		projectsViewHeader.getChildren().addAll(label, searchSection, editAndDeleteSection);
 		centerPane.setTop(projectsViewHeader);
 		BorderPane.setAlignment(projectsViewHeader, Pos.CENTER);
 		ProjectController controller = new ProjectController();

@@ -99,5 +99,4 @@ public class TicketFormView extends Base {
 		ticketDescription.clear();
 		ticketStartDate.setValue(java.time.LocalDate.now());
 	}
-
 }

@@ -18,6 +18,10 @@ public class ProjectModel {
         return projectDAO.insertProject(project);
     }
     
+    public boolean editProject(String name, Project project) {
+    	return projectDAO.editProject(name, project);
+    }
+    
     public boolean deleteProject(Project project) {
     	return projectDAO.deleteProject(project);
     }

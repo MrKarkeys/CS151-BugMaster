@@ -36,6 +36,31 @@ public class ProjectController {
         }
 	}
 	
+	/**
+     * @param name
+     * @param description
+     * @param localDate
+     * @return string showing whether project was successfully added or not
+     */
+	public String handleEditButtonClick(String originalName, String name, String description, LocalDate localDate) {
+		// format date in mm/dd/yyyy format
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedDate = localDate.format(format);
+        
+		projectModel = new ProjectModel();
+        boolean success = projectModel.editProject(originalName, new Project(name, description, formattedDate));
+
+        if (success) {
+            return "Project \"" + name + "\" was successfully edited.";
+        } else {
+            return "Project \"" + name + "\" was not edited.";
+        }
+	}
+	
+	/**
+     * @param project to be deleted
+     * @return whether or not deletion was succcessful
+     */
 	public boolean handleDeleteButton(Project project) {
 		projectModel = new ProjectModel();
 		boolean success = projectModel.deleteProject(project);

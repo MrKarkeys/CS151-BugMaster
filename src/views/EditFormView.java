@@ -1,6 +1,7 @@
 package views;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import controllers.ProjectController;
 import javafx.geometry.Insets;
@@ -14,36 +15,42 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import models.Project;
 
-public class ProjectFormView extends Base{
-	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm)   {
+public class EditFormView extends Base{
+	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm, Project projToEdit)   {
 		final int MAX_COMPONENTS = 8;
 		       
         StackPane centerPane = new StackPane();
         
-        //nav bar
+        // navigation bar
         BorderPane mainPane = createBase(home, viewProj, projForm, viewTic, ticForm, comForm);
         projForm.setStyle("-fx-background-color: WHEAT");
 
 
-        //labels for text fields and date picker
-        Label pName= new Label("enter the name");
-        Label pDesc= new Label("enter the description");
-        Label pDate= new Label("enter the starting date");
+        // labels for text fields and date picker
+        Label pName= new Label("update project name");
+        Label pDesc= new Label("update project description");
+        Label pDate= new Label("update the starting date");
 
-        //text fields and date picker for project info
-        TextField projectName = new TextField();
-        TextArea projectDescription = new TextArea();
-        DatePicker projectStartDate= new DatePicker();
-        projectStartDate.setValue(java.time.LocalDate.now());
+        // text fields and date picker for project info --> fill these with the current information of the project being edited
+        TextField projectName = new TextField(projToEdit.getName());
+        TextArea projectDescription = new TextArea(projToEdit.getDescription());
+       
+        // undo formating of date to place into DatePicker
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate unformattedDate = LocalDate.parse(projToEdit.getDate(), format);
+        DatePicker projectStartDate = new DatePicker();
+        projectStartDate.setValue(unformattedDate);
+
         
-        //center box styling here
+        // center box styling here
         VBox centerBox = new VBox(20);
         centerBox.setPadding(new Insets(10));
         centerBox.setAlignment(Pos.CENTER);
         
-        //submit button
-        Button subProj = new Button("Submit");
+        // submit/update button
+        Button subProj = new Button("Update");
         subProj.setOnAction(e -> {
         	if (centerBox.getChildren().size() >= MAX_COMPONENTS) {
         		centerBox.getChildren().remove(MAX_COMPONENTS-1); // clear bottom text on each project addition
@@ -54,12 +61,10 @@ public class ProjectFormView extends Base{
             LocalDate localDate = projectStartDate.getValue();
 
             ProjectController controller = new ProjectController();
-            String message = controller.handleSubmitButtonClick(name, description, localDate);
+            String message = controller.handleEditButtonClick(projToEdit.getName(), name, description, localDate);
 
             Label resultLabel = new Label(message);
             centerBox.getChildren().add(resultLabel);
-        	
-        	clear(projectName, projectDescription, projectStartDate);
         });
        
         //clear button
