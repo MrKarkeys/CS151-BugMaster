@@ -17,6 +17,8 @@ import models.Project;
 public class DisplayProjectsView extends Base {
 
 	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
+		final int MAX_COMPONENTS = 4;
+		
 		// nav bar
 		BorderPane mainPane = createBase(home, viewProj, projForm, viewTic, ticForm, comForm);
 		viewProj.setStyle("-fx-background-color: WHEAT");
@@ -70,19 +72,24 @@ public class DisplayProjectsView extends Base {
         deleteButton.setOnAction(e -> {
         	ProjectController controller = new ProjectController();
         	List<Project> projectToDelete = controller.getProjects(substringInput.getText());
+        	
+        	// remove bottom text in preparation for deletion message (if necessary)
+        	if (projectsViewHeader.getChildren().size() >= MAX_COMPONENTS) {
+        		projectsViewHeader.getChildren().remove(MAX_COMPONENTS-1);
+        	}
             
             // delete listed projects (it should be one project)
         	if (projectToDelete.size() != 1) {
         		Label deleteStatus = new Label("Deletion failed. Narrow search to one project.");
-        		deleteSection.getChildren().add(deleteStatus);
+        		projectsViewHeader.getChildren().add(deleteStatus);
         	} else {
         		boolean deleted = controller.handleDeleteButton(projectToDelete.get(0));
         		if (!deleted) {
         			Label deleteStatus = new Label("Failed to delete project.");
-        			deleteSection.getChildren().add(deleteStatus);
+        			projectsViewHeader.getChildren().add(deleteStatus);
         		} else {
         			Label deleteStatus = new Label("Deleted project, tickets, and comments.");
-        			deleteSection.getChildren().add(deleteStatus);
+        			projectsViewHeader.getChildren().add(deleteStatus);
         		}
         	}
         });

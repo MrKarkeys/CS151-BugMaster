@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 
 public class ProjectFormView extends Base{
 	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm)   {
+		final int MAX_COMPONENTS = 8;
 		       
         StackPane centerPane = new StackPane();
         
@@ -29,7 +30,6 @@ public class ProjectFormView extends Base{
         Label pName= new Label("enter the name");
         Label pDesc= new Label("enter the description");
         Label pDate= new Label("enter the starting date");
-        Label filler= new Label(":)");
 
         //text fields and date picker for project info
         TextField projectName = new TextField();
@@ -45,7 +45,10 @@ public class ProjectFormView extends Base{
         //submit button
         Button subProj = new Button("Submit");
         subProj.setOnAction(e -> {
-        	centerBox.getChildren().remove(centerBox.getChildren().size()-1); // clear bottom text on each project addition
+        	if (centerBox.getChildren().size() >= MAX_COMPONENTS) {
+        		centerBox.getChildren().remove(MAX_COMPONENTS-1); // clear bottom text on each project addition
+        	}
+        	
         	String name = projectName.getText();
             String description = projectDescription.getText();
             LocalDate localDate = projectStartDate.getValue();
@@ -67,7 +70,7 @@ public class ProjectFormView extends Base{
         HBox buttons = new HBox (20);
         buttons.getChildren().addAll(subProj, clearProj);
         buttons.setAlignment(Pos.CENTER);
-        centerBox.getChildren().addAll(pName, projectName, pDesc, projectDescription, pDate, projectStartDate, buttons, filler);
+        centerBox.getChildren().addAll(pName, projectName, pDesc, projectDescription, pDate, projectStartDate, buttons);
         
         centerPane.getChildren().add(centerBox);
         mainPane.setCenter(centerPane);

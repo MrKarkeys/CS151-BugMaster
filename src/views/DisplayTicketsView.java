@@ -42,7 +42,7 @@ public class DisplayTicketsView extends Base{
      	searchSection.setSpacing(5);
      	searchSection.setAlignment(Pos.CENTER);
      	TextField substringInput = new TextField();
-        Button toSearchProj = new Button("search projects");
+        Button toSearchProj = new Button("search tickets by ticket/project name");
         searchSection.getChildren().addAll(substringInput, toSearchProj);
         ticketsViewHeader.getChildren().addAll(label, searchSection);
      	centerPane.setTop(ticketsViewHeader);

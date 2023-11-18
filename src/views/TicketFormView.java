@@ -21,8 +21,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 public class TicketFormView extends Base {
-	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm,
-			Button comForm) {
+	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
+		final int MAX_COMPONENTS = 8;
 
 		StackPane centerPane = new StackPane();
 
@@ -34,7 +34,6 @@ public class TicketFormView extends Base {
 		Label pName = new Label("choose a project");
 		Label tName = new Label("enter the name");
 		Label tDesc = new Label("enter the description");
-		Label filler = new Label(":)");
 
 		// text fields and date picker for project info
 
@@ -60,8 +59,10 @@ public class TicketFormView extends Base {
 		// CHANGE TO TICKETFORMCONTROLLER
 		Button subTic = new Button("Submit");
 		subTic.setOnAction(e -> {
-			centerBox.getChildren().remove(centerBox.getChildren().size() - 1); // clear bottom text on each project
-																				// addition
+			if (centerBox.getChildren().size() >= MAX_COMPONENTS) {
+        		centerBox.getChildren().remove(MAX_COMPONENTS-1); // clear bottom text on each ticket addition
+        	}
+			
 			String projectName = combo_box.getValue();
 			String name = ticketName.getText();
 			String description = ticketDescription.getText();
@@ -85,7 +86,7 @@ public class TicketFormView extends Base {
 		HBox buttons = new HBox(20);
 		buttons.getChildren().addAll(subTic, clearTic);
 		buttons.setAlignment(Pos.CENTER);
-		centerBox.getChildren().addAll(pName, dropdown, tName, ticketName, tDesc, ticketDescription, buttons, filler);
+		centerBox.getChildren().addAll(pName, dropdown, tName, ticketName, tDesc, ticketDescription, buttons);
 		centerPane.getChildren().add(centerBox);
 		mainPane.setCenter(centerPane);
 
