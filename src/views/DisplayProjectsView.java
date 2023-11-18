@@ -43,11 +43,15 @@ public class DisplayProjectsView extends Base {
 		TextField substringInput = new TextField();
         Button toSearchProj = new Button("search projects");
         searchSection.getChildren().addAll(substringInput, toSearchProj);
-		projectsViewHeader.getChildren().addAll(label, searchSection);
-		centerPane.setTop(projectsViewHeader);
-		BorderPane.setAlignment(projectsViewHeader, Pos.CENTER);
-		
-		toSearchProj.setOnAction(e -> {
+
+		// delete section
+		HBox deleteSection = new HBox();
+		deleteSection.setSpacing(5);
+		deleteSection.setAlignment(Pos.CENTER);
+        Button deleteButton = new Button("delete single project");
+        deleteSection.getChildren().addAll(deleteButton);
+        
+        toSearchProj.setOnAction(e -> {
         	ProjectController controller = new ProjectController();
             List<Project> searchedProjects = controller.getProjects(substringInput.getText());
             
@@ -61,10 +65,32 @@ public class DisplayProjectsView extends Base {
             } else {
             	populateProjects(projectsTable, searchedProjects);
             }
-
-            mainPane.setCenter(centerPane);
         });
-		
+        
+        deleteButton.setOnAction(e -> {
+        	ProjectController controller = new ProjectController();
+        	List<Project> projectToDelete = controller.getProjects(substringInput.getText());
+            
+            // delete listed projects (it should be one project)
+        	if (projectToDelete.size() != 1) {
+        		Label deleteStatus = new Label("Deletion failed; narrow search to one project.");
+        		deleteSection.getChildren().add(deleteStatus);
+        	} else {
+        		boolean deleted = controller.handleDeleteButton(projectToDelete.get(0));
+        		if (!deleted) {
+        			Label deleteStatus = new Label("failed to delete project.");
+        			deleteSection.getChildren().add(deleteStatus);
+        		} else {
+        			Label deleteStatus = new Label("Deleted project.");
+        			deleteSection.getChildren().add(deleteStatus);
+        		}
+        	}
+        });
+        
+        // add search, delete section to (top of) page
+		projectsViewHeader.getChildren().addAll(label, searchSection, deleteSection);
+		centerPane.setTop(projectsViewHeader);
+		BorderPane.setAlignment(projectsViewHeader, Pos.CENTER);
 		ProjectController controller = new ProjectController();
 		List<Project> projects = controller.getProjects();
 		populateProjects(projectsTable, projects);
@@ -75,6 +101,10 @@ public class DisplayProjectsView extends Base {
 	}
 	
 	private void populateProjects(TilePane table, List<Project> projects) {
+		if (projects.size() == 0) {
+			Label notFound = new Label("No projects found.");
+        	table.getChildren().add(notFound);
+		}
 		for (int i = 0; i < projects.size(); i++) {
 			VBox projectBox = new VBox();
 			Label projectName = new Label(projects.get(i).getName());

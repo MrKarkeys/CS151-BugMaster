@@ -14,15 +14,19 @@ public class ProjectModel {
         return projectDAO.validDBConnection();
     }
     
+    public boolean addProject(Project project) {
+        return projectDAO.insertProject(project);
+    }
+    
+    public boolean deleteProject(Project project) {
+    	return projectDAO.deleteProject(project);
+    }
+    
     public List<Project> getAllProjects() {
         return projectDAO.getAllProjects();
     }
     
     public List<Project> getAllProjects(String substring) {
     	return projectDAO.getAllProjects(substring);
-    }
-
-    public boolean addProject(Project project) {
-        return projectDAO.insertProject(project);
     }
 }

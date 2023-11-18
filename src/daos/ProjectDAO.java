@@ -105,6 +105,29 @@ public class ProjectDAO {
 	}
 	
 	/**
+	 * @param project is the project that you want to delete
+	 * @return a boolean to show if it was successful
+	 */
+	public boolean deleteProject(Project project) {
+	    try {
+	        if (!isProjectsTableExists()) {
+	            createProjectsTable();
+	        }
+	        String query = "DELETE FROM projects WHERE name = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, project.getName());
+	        int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    } finally {
+	        closeConnection();
+	    }
+	}
+	
+	
+	/**
 	 * @return a boolean to show if table called "projects" exists in database
 	 */
 	public boolean isProjectsTableExists() {

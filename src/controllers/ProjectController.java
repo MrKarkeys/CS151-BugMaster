@@ -36,6 +36,12 @@ public class ProjectController {
         }
 	}
 	
+	public boolean handleDeleteButton(Project project) {
+		projectModel = new ProjectModel();
+		boolean success = projectModel.deleteProject(project);
+		return success;
+	}
+	
 	public List<Project> getProjects() {
         return projectModel.getAllProjects();
 	}
