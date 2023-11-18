@@ -110,14 +110,40 @@ public class ProjectDAO {
 	 */
 	public boolean deleteProject(Project project) {
 	    try {
-	        if (!isProjectsTableExists()) {
-	            createProjectsTable();
-	        }
-	        String query = "DELETE FROM projects WHERE name = ?";
-	        PreparedStatement statement = connection.prepareStatement(query);
-	        statement.setString(1, project.getName());
-	        int rowsAffected = statement.executeUpdate();
-	        return rowsAffected > 0;
+	    	// delete project
+	    	if (!isProjectsTableExists()) {
+                createProjectsTable();
+            }
+            String query = "DELETE FROM projects WHERE name = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, project.getName());
+            int rowsAffected = statement.executeUpdate();
+
+
+            // store the names of all tickets tied to the project, then delete the tickets
+            String deleteTicketsQuery = "SELECT name FROM tickets WHERE projectname = ?";
+            PreparedStatement selectTicketsStatement = connection.prepareStatement(deleteTicketsQuery);
+            selectTicketsStatement.setString(1, project.getName());
+            ResultSet ticketNamesResult = selectTicketsStatement.executeQuery();
+
+            List<String> ticketNamesList = new ArrayList<>();
+            while (ticketNamesResult.next()) ticketNamesList.add(ticketNamesResult.getString("name"));
+            
+            String deleteTicketsStatement = "DELETE FROM tickets WHERE projectname = ?";
+            PreparedStatement deleteTicketsPreparedStatement = connection.prepareStatement(deleteTicketsStatement);
+            deleteTicketsPreparedStatement.setString(1, project.getName());
+            deleteTicketsPreparedStatement.executeUpdate();
+            
+        	// delete comments tied to all tickets
+            String deleteCommentsStatement = "DELETE FROM comments WHERE ticketName = ?";
+            PreparedStatement deleteCommentsPreparedStatement = connection.prepareStatement(deleteCommentsStatement);
+
+            for (String ticketName : ticketNamesList) {
+                deleteCommentsPreparedStatement.setString(1, ticketName);
+                deleteCommentsPreparedStatement.executeUpdate();
+            }
+
+            return rowsAffected > 0;
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return false;

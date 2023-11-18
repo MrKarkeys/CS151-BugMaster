@@ -73,15 +73,15 @@ public class DisplayProjectsView extends Base {
             
             // delete listed projects (it should be one project)
         	if (projectToDelete.size() != 1) {
-        		Label deleteStatus = new Label("Deletion failed; narrow search to one project.");
+        		Label deleteStatus = new Label("Deletion failed. Narrow search to one project.");
         		deleteSection.getChildren().add(deleteStatus);
         	} else {
         		boolean deleted = controller.handleDeleteButton(projectToDelete.get(0));
         		if (!deleted) {
-        			Label deleteStatus = new Label("failed to delete project.");
+        			Label deleteStatus = new Label("Failed to delete project.");
         			deleteSection.getChildren().add(deleteStatus);
         		} else {
-        			Label deleteStatus = new Label("Deleted project.");
+        			Label deleteStatus = new Label("Deleted project, tickets, and comments.");
         			deleteSection.getChildren().add(deleteStatus);
         		}
         	}
