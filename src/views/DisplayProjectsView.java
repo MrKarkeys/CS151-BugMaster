@@ -88,8 +88,12 @@ public class DisplayProjectsView extends Base {
         			Label deleteStatus = new Label("Failed to delete project.");
         			projectsViewHeader.getChildren().add(deleteStatus);
         		} else {
-        			Label deleteStatus = new Label("Deleted project, tickets, and comments.");
+        			Label deleteStatus = new Label("Successful deletion of project + it's tickets and comments.");
         			projectsViewHeader.getChildren().add(deleteStatus);
+        			
+        			// clear table to give visual representation of deletion
+        			projectsTable.getChildren().clear();
+        			populateProjects(projectsTable, new ArrayList<>());
         		}
         	}
         });
