@@ -17,7 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import models.Project;
 
-public class EditFormView extends Base{
+public class EditProjectFormView extends Base{
 	public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm, Project projToEdit)   {
 		final int MAX_COMPONENTS = 8;
 		       

@@ -87,7 +87,7 @@ public class DisplayProjectsView extends Base {
         		projectsViewHeader.getChildren().add(editStatus);
         	} else {
         		// redirect to editing form view/page
-        		EditFormView editFormView = new EditFormView();
+        		EditProjectFormView editFormView = new EditProjectFormView();
 				scene.setRoot(editFormView.render(home, viewProj, projForm, viewTic, ticForm, comForm, projectToEdit.get(0)));
         	}
         });

@@ -305,6 +305,30 @@ public class ProjectDAO {
         	closeConnection();
         }
 	}
+    
+
+
+	public boolean editTicket(int id, Ticket ticket) {
+		try {
+			if (!isTicketsTableExists()) {
+				createTicketsTable();
+			}
+			String query = "UPDATE tickets SET projectName = ?, name = ?, description = ?, due_date = ? WHERE id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1,  ticket.getProjectName());
+	        statement.setString(2, ticket.getName());
+	        statement.setString(3, ticket.getDescription());
+	        statement.setString(4, ticket.getDate());
+	        statement.setInt(5, id);
+	        int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+		} finally {
+			closeConnection();
+		}
+	}
 
     private boolean isTicketsTableExists() {
 		try {

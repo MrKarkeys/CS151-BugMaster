@@ -25,4 +25,8 @@ public class TicketModel {
     public boolean addTicket(Ticket ticket) {
         return projectDAO.insertTicket(ticket);
     }
+    
+    public boolean editTicket(int id, Ticket ticket) {
+    	return projectDAO.editTicket(id, ticket);
+    }
 }

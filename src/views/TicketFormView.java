@@ -67,6 +67,7 @@ public class TicketFormView extends Base {
 			String name = ticketName.getText();
 			String description = ticketDescription.getText();
 			LocalDate localDate = ticketStartDate.getValue();
+			
 			TicketController controller = new TicketController();
 			String message = controller.handleSubmitButtonClick(projectName, name, description, localDate);
 

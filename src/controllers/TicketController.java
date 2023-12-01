@@ -59,4 +59,15 @@ public class TicketController {
 		}
 		return tickDes;
 	}
+
+	public String handleEditButtonClick(int id, String projectName, String name, String description, LocalDate localDate) {
+		ticketModel = new TicketModel();
+		boolean success = ticketModel.editTicket(id, new Ticket(projectName, name, description, localDate.toString()));
+		
+		if (success) {
+            return "Ticket \"" + name + "\" was successfully edited.";
+        } else {
+            return "Ticket \"" + name + "\" was not edited.";
+        }
+	}
 }

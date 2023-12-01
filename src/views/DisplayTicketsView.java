@@ -5,6 +5,7 @@ package views;
 import java.util.*;
 import controllers.TicketController;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,7 +17,8 @@ import models.Ticket;
 
 public class DisplayTicketsView extends Base{
 
-    public BorderPane render(Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
+    public BorderPane render(Scene scene, Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
+    	final int MAX_COMPONENTS = 4;
     	
     	//nav bar
         BorderPane mainPane = createBase(home, viewProj, projForm, viewTic, ticForm, comForm);
@@ -44,7 +46,17 @@ public class DisplayTicketsView extends Base{
      	TextField substringInput = new TextField();
         Button toSearchProj = new Button("search tickets by ticket/project name");
         searchSection.getChildren().addAll(substringInput, toSearchProj);
-        ticketsViewHeader.getChildren().addAll(label, searchSection);
+     	
+     // edit + delete section
+     	HBox editAndDeleteSection = new HBox();
+ 		editAndDeleteSection.setSpacing(5);
+ 		editAndDeleteSection.setAlignment(Pos.CENTER);
+ 		Button editButton = new Button("edit single ticket");
+ 		Button deleteButton = new Button("delete single ticket");
+ 		editAndDeleteSection.getChildren().addAll(editButton, deleteButton);
+ 		
+ 	// adding items to header
+ 		ticketsViewHeader.getChildren().addAll(label, searchSection, editAndDeleteSection);
      	centerPane.setTop(ticketsViewHeader);
      	BorderPane.setAlignment(ticketsViewHeader, Pos.CENTER);
      		
@@ -65,6 +77,30 @@ public class DisplayTicketsView extends Base{
 
             mainPane.setCenter(centerPane);
         });
+     	
+     	editButton.setOnAction(e -> {
+     		TicketController controller = new TicketController();
+     		List<Ticket> ticketToEdit = controller.getTickets(substringInput.getText());
+     		Label editStatus;
+     		
+     		// remove bottom text in preperation for deletion message (if necessary)
+     		if (ticketsViewHeader.getChildren().size() >= MAX_COMPONENTS) {
+     			ticketsViewHeader.getChildren().remove(MAX_COMPONENTS-1);
+     		}
+     		
+     		// delete listed projects (it should be one project)
+     		if (ticketToEdit.size() != 1) {
+     			editStatus = new Label("Edit failed. Narrow search to one ticket.");
+     			ticketsViewHeader.getChildren().add(editStatus);
+     		} else {
+     			// redirect to editing form view/page
+     			EditTicketFormView editTicketFormView = new EditTicketFormView();
+     			scene.setRoot(editTicketFormView.render(home, viewProj, projForm, viewTic, ticForm, comForm, ticketToEdit.get(0)));
+     		}
+     		
+     	});
+     	
+     	deleteButton.setOnAction(null);
         
         TicketController controller = new TicketController();
         List<Ticket> tickets = controller.getTickets();
