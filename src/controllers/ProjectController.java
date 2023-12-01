@@ -59,7 +59,7 @@ public class ProjectController {
 	
 	/**
      * @param project to be deleted
-     * @return whether or not deletion was succcessful
+     * @return whether or not deletion was successful
      */
 	public boolean handleDeleteButton(Project project) {
 		projectModel = new ProjectModel();

@@ -70,4 +70,10 @@ public class TicketController {
             return "Ticket \"" + name + "\" was not edited.";
         }
 	}
+
+	public boolean handleDeleteButton(Ticket ticket) {
+		ticketModel = new TicketModel();
+		boolean success = ticketModel.deleteTicket(ticket);
+		return success;
+	}
 }

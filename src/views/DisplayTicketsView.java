@@ -100,7 +100,35 @@ public class DisplayTicketsView extends Base{
      		
      	});
      	
-     	deleteButton.setOnAction(null);
+     	deleteButton.setOnAction(e -> {
+     		TicketController controller = new TicketController();
+     		List<Ticket> ticketToDelete= controller.getTickets(substringInput.getText());
+     		Label deleteStatus;     
+     		
+     		// remove bottom text in preparation for deletion message (if necessary)
+     		if (ticketsViewHeader.getChildren().size() >= MAX_COMPONENTS) {
+     			ticketsViewHeader.getChildren().remove(MAX_COMPONENTS-1);
+     		}
+     		
+     		// delete listed projects (it should be one project)
+     		if (ticketToDelete.size() != 1) {
+     			deleteStatus = new Label("Deletion failed. Narrow search to one ticket.");
+     			ticketsViewHeader.getChildren().add(deleteStatus);
+     		} else {
+     			boolean deleted = controller.handleDeleteButton(ticketToDelete.get(0));
+        		if (!deleted) {
+        			deleteStatus = new Label("Failed to delete project.");
+        			ticketsViewHeader.getChildren().add(deleteStatus);
+        		} else {
+        			deleteStatus = new Label("Successful deletion of project + it's tickets and comments.");
+        			ticketsViewHeader.getChildren().add(deleteStatus);
+        			
+        			// clear table to give visual representation of deletion
+        			ticketsTable.getChildren().clear();
+        			populateTickets(ticketsTable, new ArrayList<>());
+        		}
+     		}
+     	});
         
         TicketController controller = new TicketController();
         List<Ticket> tickets = controller.getTickets();

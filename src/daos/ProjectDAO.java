@@ -486,4 +486,34 @@ public class ProjectDAO {
         }
     }
 
+	public boolean deleteTicket(Ticket ticket) {
+		try {
+	    	// delete ticket
+	    	if (!isTicketsTableExists()) {
+                createTicketsTable();
+            }
+            String query = "DELETE FROM tickets WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, ticket.getId());
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected < 0) {
+            	return false;
+            }
+
+
+            // store the names of all comments tied to the ticket, then delete the tickets
+            String deleteCommentsStatement = "DELETE FROM comments WHERE ticketName = ?";
+            PreparedStatement deleteCommentsPreparedStatement = connection.prepareStatement(deleteCommentsStatement);
+            deleteCommentsPreparedStatement.setString(1, ticket.getName());
+            deleteCommentsPreparedStatement.executeUpdate();
+
+            return true;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    } finally {
+	        closeConnection();
+	    }
+	}
+
 }
