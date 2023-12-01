@@ -21,4 +21,12 @@ public class CommentModel {
     public boolean addComment(Comment comment) {
         return projectDAO.insertComments(comment);
     }
+
+	public boolean delete(int id) {
+		return projectDAO.deleteComment(id);
+	}
+
+	public boolean edit(int id, String description, String date) {
+		return projectDAO.editComment(id, description, date);
+	}
 }

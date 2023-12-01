@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.scene.control.Label;
+import models.Comment;
 import models.Ticket;
 import models.TicketModel;
 
@@ -75,5 +78,10 @@ public class TicketController {
 		ticketModel = new TicketModel();
 		boolean success = ticketModel.deleteTicket(ticket);
 		return success;
+	}
+
+	public List<Comment> getComments(String ticket) {
+		ticketModel = new TicketModel();
+		return ticketModel.getComments(ticket);
 	}
 }

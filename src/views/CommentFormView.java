@@ -2,6 +2,7 @@ package views;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,11 +19,16 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import models.Comment;
 
 public class CommentFormView extends Base {
 	public BorderPane render(Scene scene, Button home, Button viewProj, Button projForm, Button viewTic, Button ticForm, Button comForm) {
@@ -47,7 +53,7 @@ public class CommentFormView extends Base {
 		TilePane dropdownP = new TilePane(combo_boxP);
 		dropdownP.setAlignment(Pos.CENTER);
 		Button subProj = new Button("View Project's Tickets");
-
+		
 		//box styling
 		VBox chooseProj = new VBox(20);
 		chooseProj.getChildren().addAll(pName, dropdownP,subProj);
@@ -87,9 +93,13 @@ public class CommentFormView extends Base {
 				centerBox.getChildren().remove(chooseTic);
 				
 				//content
+				String ticketName = combo_boxT.getValue();
 				TicketController ticCon = new TicketController();
-				Label ticDescrip = new Label("Ticket Description: "+ticCon.getTicketDes(combo_boxT.getValue()));
-				Label exampleComments = new Label("Previous Comment: this is a previous comment");
+				Label ticDescrip = new Label("Ticket Description: "+ticCon.getTicketDes(ticketName));
+				Label exampleComments = new Label("Previous Comments:");
+				VBox commentChat = new VBox(20);
+				commentChat.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+				populateComments(commentChat, ticketName);
 				Label cDesc = new Label("Write comment:");
 				TextArea c1Description = new TextArea();
 				
@@ -102,7 +112,6 @@ public class CommentFormView extends Base {
 				//SENDING COMMENT TO CONTROLLER
 				Button subCom = new Button("Submit");
 				subCom.setOnAction(e -> {
-					String ticketName = combo_boxT.getValue();
 					String description1 = c1Description.getText();
 					LocalDateTime localDate = DateTimeNow;
 					CommentController controller = new CommentController();
@@ -113,6 +122,7 @@ public class CommentFormView extends Base {
 					centerBox.getChildren().add(results);
 
 					clear(c1Description,DateTimeNow);
+					populateComments(commentChat, ticketName);
 				});
 
 				
@@ -133,7 +143,7 @@ public class CommentFormView extends Base {
 				
 				//ADD TO STAGE
 				VBox commentStuff = new VBox(20);
-				commentStuff.getChildren().addAll(projName, tickName, ticDescrip,exampleComments,cDesc, c1Description, commentDate, addNewCommentBtn, submitClearSection);
+				commentStuff.getChildren().addAll(projName, tickName, ticDescrip,exampleComments, commentChat,cDesc, c1Description, commentDate, submitClearSection, addNewCommentBtn);
 				commentStuff.setPadding(new Insets(10));
 				commentStuff.setAlignment(Pos.CENTER);
 				centerBox.getChildren().addAll(commentStuff);
@@ -149,5 +159,32 @@ public class CommentFormView extends Base {
 	public void clear(TextArea commentDescription, LocalDateTime DateTimeNow) {
 		commentDescription.clear();
 		DateTimeNow = LocalDateTime.now();
+	}
+	
+	public void populateComments(VBox commentChat, String ticketName) {
+		commentChat.getChildren().clear();
+		TicketController ticCon = new TicketController();
+		List<Comment> comments = ticCon.getComments(ticketName);
+		for (Comment c : comments) {
+			HBox commentEntry = new HBox(20);
+			Label commentText = new Label("(" + c.getDate() + "): ");
+			TextField descriptionInput = new TextField(c.getDescription());
+			Button edtBtn = new Button("Edit");
+			Button delBtn = new Button("Delete");
+			
+			CommentController ctrl = new CommentController();
+			edtBtn.setOnAction(e -> {
+				String description = descriptionInput.getText();				
+				ctrl.edit(c.getId(), description + " (edited)", LocalDateTime.now());
+				populateComments(commentChat, ticketName);
+			});
+			delBtn.setOnAction(e -> {
+				ctrl.delete(c.getId());
+				populateComments(commentChat, ticketName);
+			});
+			
+			commentEntry.getChildren().addAll(commentText, descriptionInput, edtBtn, delBtn);
+			commentChat.getChildren().add(commentEntry);
+		}
 	}
 }

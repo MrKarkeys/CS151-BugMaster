@@ -33,4 +33,8 @@ public class Comment {
 	public String getDate() {
 		return date;
 	}
+
+	public int getId() {
+		return id;
+	}
 }

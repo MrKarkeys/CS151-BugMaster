@@ -516,4 +516,68 @@ public class ProjectDAO {
 	    }
 	}
 
+	public List<Comment> getCommentByTicket(String ticketName) {
+		try {
+			if (!isCommentsTableExists()) {
+				createCommentsTable();
+			}
+			
+			String query = "SELECT * FROM comments WHERE ticketName = ?";
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, ticketName);
+			ResultSet entries = statement.executeQuery();
+			List<Comment> comments = new ArrayList<>();
+			while (entries.next()) {
+	        	Comment comment = new Comment(entries.getInt("id"), entries.getString("TicketName"), entries.getString("description"), entries.getString("due_date"));
+	        	comments.add(comment);
+	        }
+			return comments;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return new ArrayList<>();
+		} finally {
+			closeConnection();
+		}
+	}
+
+	public boolean deleteComment(int id) {
+		try {
+			if (!isCommentsTableExists()) {
+				createCommentsTable();
+			}
+			
+			String query = "DELETE FROM comments WHERE ID = ?";
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, id);
+			int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeConnection();
+		}
+	}
+
+	public boolean editComment(int id, String description, String date) {
+		try {
+			if (!isCommentsTableExists()) {
+				createCommentsTable();
+			}
+			
+			String query = "UPDATE comments SET description = ?, due_date = ? WHERE ID = ?";
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, description);
+			statement.setString(2, date);
+			statement.setInt(3, id);
+			int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeConnection();
+		}
+	}
+
 }

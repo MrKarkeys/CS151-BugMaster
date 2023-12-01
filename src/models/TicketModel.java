@@ -33,4 +33,8 @@ public class TicketModel {
 	public boolean deleteTicket(Ticket ticket) {
 		return projectDAO.deleteTicket(ticket);
 	}
+	
+	public List<Comment> getComments(String ticketName) {
+		return projectDAO.getCommentByTicket(ticketName);
+	}
 }

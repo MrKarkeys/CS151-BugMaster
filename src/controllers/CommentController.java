@@ -25,12 +25,19 @@ public class CommentController {
 		} else {
 			return "Comment was not added.";
 		}
-
-		
-		
 	}
 
 	public List<Comment> getComments() {
 		return commentModel.getAllComments();
+	}
+	
+	public boolean delete(int id) {
+		return commentModel.delete(id);
+	}
+	
+	public boolean edit(int id, String description, LocalDateTime date) {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+		String formattedDate = date.format(format);
+		return commentModel.edit(id, description, formattedDate);
 	}
 }
