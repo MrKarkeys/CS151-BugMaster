@@ -45,8 +45,6 @@ public class TicketFormView extends Base {
 		TilePane dropdown = new TilePane(combo_box);
 		TextField ticketName = new TextField();
 		TextArea ticketDescription = new TextArea();
-		DatePicker ticketStartDate = new DatePicker();
-		ticketStartDate.setValue(java.time.LocalDate.now());
 
 		// box styling here
 		VBox centerBox = new VBox(20);
@@ -66,21 +64,20 @@ public class TicketFormView extends Base {
 			String projectName = combo_box.getValue();
 			String name = ticketName.getText();
 			String description = ticketDescription.getText();
-			LocalDate localDate = ticketStartDate.getValue();
 			
 			TicketController controller = new TicketController();
-			String message = controller.handleSubmitButtonClick(projectName, name, description, localDate);
+			String message = controller.handleSubmitButtonClick(projectName, name, description);
 
 			Label resultLabel = new Label(message);
 			centerBox.getChildren().add(resultLabel);
 
-			clear(ticketName, ticketDescription, ticketStartDate);
+			clear(ticketName, ticketDescription);
 		});
 
 		// clear button
 		Button clearTic = new Button("Clear");
 		clearTic.setOnAction(e -> {
-			clear(ticketName, ticketDescription, ticketStartDate);
+			clear(ticketName, ticketDescription);
 		});
 
 		// create scene
@@ -95,9 +92,8 @@ public class TicketFormView extends Base {
 	}
 
 	// clear fields
-	public void clear(TextField ticketName, TextArea ticketDescription, DatePicker ticketStartDate) {
+	public void clear(TextField ticketName, TextArea ticketDescription) {
 		ticketName.clear();
 		ticketDescription.clear();
-		ticketStartDate.setValue(java.time.LocalDate.now());
 	}
 }

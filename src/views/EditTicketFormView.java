@@ -66,10 +66,9 @@ public class EditTicketFormView extends Base{
 			// gets the data
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 			formatter = formatter.withLocale(Locale.US);
-			LocalDate localDate = LocalDate.parse(ticToEdit.getDate(), formatter);
 			
 			TicketController controller = new TicketController();
-			String message = controller.handleEditButtonClick(ticToEdit.getId(), projectName, name, description, localDate);
+			String message = controller.handleEditButtonClick(ticToEdit.getId(), projectName, name, description);
 
 			Label resultLabel = new Label(message);
 			centerBox.getChildren().add(resultLabel);

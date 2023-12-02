@@ -244,7 +244,7 @@ public class ProjectDAO {
 		    Statement statement = connection.createStatement();
 	        ResultSet entries = statement.executeQuery(query);		        
 	        while (entries.next()) {
-	        	Ticket ticket = new Ticket(entries.getInt("id"), entries.getString("projectName"), entries.getString("name"), entries.getString("description"), entries.getString("due_date"));
+	        	Ticket ticket = new Ticket(entries.getInt("id"), entries.getString("projectName"), entries.getString("name"), entries.getString("description"));
 	        	tickets.add(ticket);
 	        }
 		 } catch (SQLException e) {
@@ -271,7 +271,7 @@ public class ProjectDAO {
 		    preparedStatement.setString(2, "%" + substring + "%");
 		    ResultSet entries = preparedStatement.executeQuery();
 	        while (entries.next()) {
-	        	Ticket ticket = new Ticket(entries.getInt("id"), entries.getString("projectName"), entries.getString("name"), entries.getString("description"), entries.getString("due_date"));
+	        	Ticket ticket = new Ticket(entries.getInt("id"), entries.getString("projectName"), entries.getString("name"), entries.getString("description"));
 	        	tickets.add(ticket);
 	        }
 	        
@@ -290,12 +290,11 @@ public class ProjectDAO {
 	    	if (!isTicketsTableExists()) {
 	    		createTicketsTable();
 	        }
-	        String query = "INSERT INTO tickets (projectName, name, description, due_date) VALUES (?, ?, ?, ?)";
+	        String query = "INSERT INTO tickets (projectName, name, description) VALUES (?, ?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, ticket.getProjectName());
 	        statement.setString(2, ticket.getName());
 	        statement.setString(3, ticket.getDescription());
-	        statement.setString(4, ticket.getDate());
 	        int rowsAffected = statement.executeUpdate();
 	        return rowsAffected > 0;
 	    } catch (SQLException e) {
@@ -313,13 +312,12 @@ public class ProjectDAO {
 			if (!isTicketsTableExists()) {
 				createTicketsTable();
 			}
-			String query = "UPDATE tickets SET projectName = ?, name = ?, description = ?, due_date = ? WHERE id = ?";
+			String query = "UPDATE tickets SET projectName = ?, name = ?, description = ? WHERE id = ?";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1,  ticket.getProjectName());
 	        statement.setString(2, ticket.getName());
 	        statement.setString(3, ticket.getDescription());
-	        statement.setString(4, ticket.getDate());
-	        statement.setInt(5, id);
+	        statement.setInt(4, id);
 	        int rowsAffected = statement.executeUpdate();
 	        return rowsAffected > 0;
 	    } catch (SQLException e) {
@@ -346,19 +344,19 @@ public class ProjectDAO {
 	private void createTicketsTable() {
 		try {
 	        // Create the `tickets` table
-	        String createTableQuery = "CREATE TABLE tickets (id INTEGER PRIMARY KEY, projectName TEXT , name TEXT, description TEXT, due_date DATE)";
+	        String createTableQuery = "CREATE TABLE tickets (id INTEGER PRIMARY KEY, projectName TEXT , name TEXT, description TEXT)";
 	        PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
 	        createTableStatement.executeUpdate();
 	        
 	        String[] insertQueries = {
-	        		"INSERT INTO tickets (projectName, name, description, due_date) VALUES ('P1 Name', 'TicketName1', 'first really cool ticket', '12/31/2025')",
-	        		"INSERT INTO tickets (projectName, name, description, due_date) VALUES ('P1 Name', 'TicketName2', 'Second really cool ticket', '12/31/2025')",
-	        		"INSERT INTO tickets (projectName, name, description, due_date) VALUES ('P2 Name', 'TicketName3', 'first really cool ticket', '12/31/2025')",
-	        		"INSERT INTO tickets (projectName, name, description, due_date) VALUES ('P2 Name', 'TicketName4', 'Second really cool ticket', '12/31/2025')",
-	        		"INSERT INTO tickets (projectName, name, description, due_date) VALUES ('P3 Name', 'TicketName5', 'first really cool ticket', '12/31/2025')",
-	        		"INSERT INTO tickets (projectName, name, description, due_date) VALUES ('P3 Name', 'TicketName6', 'Second really cool ticket', '12/31/2025')",
-	        		"INSERT INTO tickets (projectName, name, description, due_date) VALUES ('P4 Name', 'TicketName7', 'first really cool ticket', '12/31/2025')",
-	        		"INSERT INTO tickets (projectName, name, description, due_date) VALUES ('P4 Name', 'TicketName8', 'Second really cool ticket', '12/31/2025')"
+	        		"INSERT INTO tickets (projectName, name, description) VALUES ('P1 Name', 'TicketName1', 'first really cool ticket')",
+	        		"INSERT INTO tickets (projectName, name, description) VALUES ('P1 Name', 'TicketName2', 'Second really cool ticket')",
+	        		"INSERT INTO tickets (projectName, name, description) VALUES ('P2 Name', 'TicketName3', 'first really cool ticket')",
+	        		"INSERT INTO tickets (projectName, name, description) VALUES ('P2 Name', 'TicketName4', 'Second really cool ticket')",
+	        		"INSERT INTO tickets (projectName, name, description) VALUES ('P3 Name', 'TicketName5', 'first really cool ticket')",
+	        		"INSERT INTO tickets (projectName, name, description) VALUES ('P3 Name', 'TicketName6', 'Second really cool ticket')",
+	        		"INSERT INTO tickets (projectName, name, description) VALUES ('P4 Name', 'TicketName7', 'first really cool ticket')",
+	        		"INSERT INTO tickets (projectName, name, description) VALUES ('P4 Name', 'TicketName8', 'Second really cool ticket')"
 	        };
 
 	        for (String insertQuery : insertQueries) {

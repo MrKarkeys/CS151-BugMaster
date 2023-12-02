@@ -18,12 +18,9 @@ public class TicketController {
         ticketModel = new TicketModel();        
     }
 
-	public String handleSubmitButtonClick(String projectName, String name, String description, LocalDate localDate) {
+	public String handleSubmitButtonClick(String projectName, String name, String description) {
 		// format date in mm/dd/yyyy format
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-		String formattedDate = localDate.format(format);
-
-		boolean success = (new TicketModel()).addTicket(new Ticket(projectName, name, description, formattedDate));
+		boolean success = (new TicketModel()).addTicket(new Ticket(projectName, name, description));
 
 		if (success) {
 			return "Ticket \"" + name + "\" was successfully added.";
@@ -63,9 +60,9 @@ public class TicketController {
 		return tickDes;
 	}
 
-	public String handleEditButtonClick(int id, String projectName, String name, String description, LocalDate localDate) {
+	public String handleEditButtonClick(int id, String projectName, String name, String description) {
 		ticketModel = new TicketModel();
-		boolean success = ticketModel.editTicket(id, new Ticket(projectName, name, description, localDate.toString()));
+		boolean success = ticketModel.editTicket(id, new Ticket(projectName, name, description));
 		
 		if (success) {
             return "Ticket \"" + name + "\" was successfully edited.";

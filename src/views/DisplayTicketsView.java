@@ -150,10 +150,8 @@ public class DisplayTicketsView extends Base{
             ticketDesc.setStyle("-fx-font: normal bold 17.5px elephant; -fx-text-fill: darkolivegreen;");
             ticketDesc.setWrapText(true);
             ticketDesc.setMaxWidth(400);
-            Label ticketLabel = new Label(tickets.get(i).getDate());
-            ticketLabel.setStyle("-fx-font: normal bold 15px elephant; -fx-text-fill: darkolivegreen;");
             
-            ticketBox.getChildren().addAll(ProjectName, TicketName, ticketDesc, ticketLabel);
+            ticketBox.getChildren().addAll(ProjectName, TicketName, ticketDesc);
             table.getChildren().add(ticketBox);
         }
 	}

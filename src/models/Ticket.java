@@ -5,7 +5,6 @@ public class Ticket {
 	String projectName;
 	String name;
 	String description;
-	String date;
 	
 	/**
 	 * @param projectId the SQL key (id) for the project row
@@ -13,15 +12,14 @@ public class Ticket {
 	 * @param description
 	 * @param date
 	 */
-	public Ticket(String projectName, String name, String description, String date) {
+	public Ticket(String projectName, String name, String description) {
 		this.projectName = projectName;
 		this.name = name;
 		this.description = description;
-		this.date = date;
 	}
 	
-	public Ticket(int id, String projectName, String name, String description, String date) {
-		this(projectName, name, description, date);
+	public Ticket(int id, String projectName, String name, String description) {
+		this(projectName, name, description);
 		this.id = id;
 	}
 
@@ -35,10 +33,6 @@ public class Ticket {
 	
 	public String getDescription() {
 		return description;
-	}
-	
-	public String getDate() {
-		return date;
 	}
 	
 	public Integer getId() {
