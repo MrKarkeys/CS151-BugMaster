@@ -25,10 +25,10 @@ public class Base {
         //set text for buttons
         home.setText("home");
         viewProj.setText("view projects");
-        projForm.setText("create a project");
+        projForm.setText("create project");
         viewTic.setText("view tickets");
-        ticForm.setText("create a ticket");
-        comForm.setText("create a comment");
+        ticForm.setText("create ticket");
+        comForm.setText("create/view comment");
         
         //adding the navbar
         topBox.setPadding(new Insets(10));
