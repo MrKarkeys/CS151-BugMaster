@@ -290,7 +290,7 @@ public class ProjectDAO {
 	    	if (!isTicketsTableExists()) {
 	    		createTicketsTable();
 	        }
-	        String query = "INSERT INTO tickets (projectName, name, description) VALUES (?, ?, ?, ?)";
+	        String query = "INSERT INTO tickets (projectName, name, description) VALUES (?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, ticket.getProjectName());
 	        statement.setString(2, ticket.getName());
